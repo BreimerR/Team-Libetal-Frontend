@@ -15,6 +15,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Libetal from "../../../widgets/icons/Libetal";
 import Colors from "../../../Colors";
 import ListItemDiv from "../../repos/ListItemDiv";
+import MaterialRow from "../../../widgets/grid/MaterialRow";
+import Spacer from "../../../widgets/dividers/Spacer";
+import MaterialCol from "../../../widgets/grid/MaterialCol";
+import MaterialMenuItem from "../../../widgets/menu/MaterialMenuItem";
 
 export default class UserAccountButton extends Component {
 
@@ -25,11 +29,14 @@ export default class UserAccountButton extends Component {
 
 
     static propTypes = {
+        ...MaterialBtn.propTypes,
         userDetails: PropTypes.object,
-        navigator: PropTypes.func
+        navigator: PropTypes.func,
+        variant: PropTypes.string
     };
 
     static defaultProps = {
+        variant: "contained",
         userDetails: {
             name: "Breimer",
             email: "brymher@gmail.com",
@@ -91,18 +98,132 @@ export default class UserAccountButton extends Component {
         );
     }
 
+    prepMenuItem(children, onClick) {
+        let menuItemStyle = {
+            width: "100%",
+            margin: 0,
+            marginTop: 0,
+            marginBottom: 0,
+            height: 32,
+            minHeight: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 4
+        };
+
+        return (
+            <MenuItem
+                disableGutters
+                style={menuItemStyle}
+                onClick={onClick}
+                children={children}
+            />
+        );
+    }
+
+    get profileActions() {
+        const {
+            props: {
+                navigator,
+                variant
+            },
+            state: {
+                anchorEl
+            }
+        } = this;
+
+        return (
+            <MaterialCol xs={5}>
+                <TextView
+                    text={"Account"}
+                />
+                <MaterialDivider
+                    width={"50%"}
+                />
+                {
+                    this.prepMenuItem(
+                        <>
+                            {
+                                this.props.userDetails.img === undefined ?
+                                    (
+                                        <Libetal
+                                            height={24}
+                                            width={24}
+                                            iColor={Colors.red}
+                                            bColor={Colors.white}
+                                            lColor={Colors.blue}/>)
+                                    : (
+                                        <Avatar
+                                            src={this.props.userDetails.img}
+                                            style={{width: 24, height: 24}}
+                                        />
+                                    )
+                            }
+                            <Spacer orientation={Spacer.VERTICAL} spacing={8}/>
+                            <TextView
+                                text={"Profile"}
+                            />
+                        </>,
+                        e => {
+                            this.props.navigator("users/breimer");
+                        }
+                    )
+                }
+                {
+                    this.prepMenuItem(
+                        <>
+                            <MaterialIcon
+                                icon={"LockOpen"}
+                            />
+                            <Spacer orientation={Spacer.VERTICAL} spacing={8}/>
+                            <TextView
+                                text={"Logout"}
+                            />
+                        </>,
+                        e => this.logOut()
+                    )
+                }
+                {
+                    this.prepMenuItem(
+                        <>
+                            <MaterialIcon
+                                icon={"ExitToApp"}
+                            />
+                            <Spacer orientation={Spacer.VERTICAL} spacing={8}/>
+                            <TextView
+                                text={"Login/Register"}
+                            />
+                        </>,
+                        e => {
+                            navigator("register");
+                        }
+                    )
+                }
+
+            </MaterialCol>
+        );
+    }
+
+    logOut() {
+        console.log(`TODO: 216 UserAccountsButton.jsx`);
+    }
+
     render() {
 
         const {
-            navigator
-        } = this.props;
-        let {
-            anchorEl
-        } = this.state;
+            props: {
+                navigator,
+                variant
+            },
+            state: {
+                anchorEl
+            }
+        } = this;
 
         return (
             <>
                 <MaterialBtn
+                    variant={variant}
                     content={this.buttonBody}
                     textTransform={"none"}
                     style={{
@@ -129,8 +250,8 @@ export default class UserAccountButton extends Component {
                     }
                     TransitionComponent={Fade}
                 >
-                    <Row style={{width: 420}} justify={Flex.SPACE_AROUND}>
-                        <Column xs={7}>
+                    <MaterialRow style={{width: 420}} justify={Flex.SPACE_AROUND}>
+                        <MaterialCol xs={6}>
                             <TextView
                                 text={"Productivity"}
 
@@ -138,111 +259,68 @@ export default class UserAccountButton extends Component {
                             <MaterialDivider
                                 width={"50%"}
                             />
-                            <MenuItem
-                                onClick={
-                                    e => {
-                                        this.props.navigator("dashboard/teams");
-                                    }
-                                }
-                            >
-                                <ListItemIcon>
-                                    <MaterialIcon
-                                        icon={"People"}
-                                    />
-                                </ListItemIcon>
+                            {
+                                this.prepMenuItem(
+                                    <>
+                                        <MaterialIcon
+                                            icon={"People"}
+                                        />
+                                        <Spacer orientation={Spacer.VERTICAL} spacing={8}/>
 
-                                <TextView text={"Teams"}/>
-                            </MenuItem>
-                            <MenuItem
-                                onClick={
+                                        <TextView text={"Teams"}/>
+                                    </>,
                                     e => {
-                                        this.props.navigator("dashboard/projects?by=me");
+                                        navigator("dashboard/teams?member=breimer");
                                     }
-                                }
-                            >
-                                <ListItemIcon>
-                                    <MaterialIcon
-                                        icon={"AccountTree"}
-                                    />
-                                </ListItemIcon>
-                                <TextView text={"Your Projects"}/>
-                            </MenuItem>
-                            <MenuItem
-                                onClick={
+                                )
+                            }
+                            {
+                                this.prepMenuItem(
+                                    <>
+                                        <MaterialIcon
+                                            icon={"AccountTree"}
+                                        />
+                                        <Spacer orientation={Spacer.VERTICAL} spacing={8}/>
+                                        <TextView text={"Your Projects"}/>
+                                    </>,
+                                    e => {
+                                        navigator("dashboard/projects?by=breimer");
+                                    }
+                                )
+                            }
+                            {
+                                this.prepMenuItem(
+                                    <>
+                                        <MaterialIcon
+                                            icon={"BugReport"}
+                                        />
+                                        <Spacer orientation={Spacer.VERTICAL} spacing={8}/>
+                                        <TextView text={"Issues"}/>
+                                    </>,
                                     e => {
                                         this.props.navigator("dashboard/issues?by=me");
                                     }
-                                }
-                            >
-                                <ListItemIcon>
-                                    <MaterialIcon
-                                        icon={"BugReport"}
-                                    />
-                                </ListItemIcon>
-                                <TextView text={"Issues"}/>
-                            </MenuItem>
+                                )
+                            }
 
-                            <MenuItem
-                                onClick={
+                            {
+                                this.prepMenuItem(
+                                    <>
+                                        <MaterialIcon
+                                            icon={"TrendingUp"}
+                                        />
+                                        <Spacer orientation={Spacer.VERTICAL} spacing={8}/>
+                                        <TextView text={"Insights"}/>
+                                    </>,
                                     e => {
                                         this.props.navigator("dashboard/insights?projects=all");
                                     }
-                                }
-                            >
-                                <ListItemIcon>
-                                    <MaterialIcon
-                                        icon={"TrendingUp"}
-                                    />
-                                </ListItemIcon>
-                                <TextView text={"Insights"}/>
-                            </MenuItem>
-                        </Column>
+                                )
+                            }
+                        </MaterialCol>
                         <MaterialDivider height={100} orientation={MaterialDivider.VERTICAL}/>
-                        <Column xs={4}>
-                            <TextView
-                                text={"Account"}
-                            />
-                            <MaterialDivider
-                                width={"50%"}
-                            />
-                            <MenuItem
-                                onClick={
-                                    e => {
-                                        navigator("users/breimer");
-                                    }
-                                }
-                            >
-                                <ListItemIcon>
-                                    {
-                                        this.props.userDetails.img === undefined ?
-                                            (
-                                                <Libetal height={24} width={24} iColor={Colors.red}
-                                                         bColor={Colors.white}
-                                                         lColor={Colors.blue}/>)
-                                            : (
-                                                <Avatar
-                                                    src={this.props.userDetails.img}
-                                                    style={{width: 24, height: 24}}
-                                                />
-                                            )
-                                    }
-                                </ListItemIcon>
-                                <TextView
-                                    text={"Profile"}
-                                />
-                            </MenuItem>
-                            <MenuItem>
-                                <ListItemIcon>
-                                    <MaterialIcon
-                                        icon={"ExitToApp"}
-                                    />
-                                </ListItemIcon>
-                                <TextView
-                                    text={"Logout"}
-                                />
-                            </MenuItem>
-                        </Column>
-                    </Row>
+                        {this.profileActions}
+                    </MaterialRow>
                 </Menu>
             </>
         );

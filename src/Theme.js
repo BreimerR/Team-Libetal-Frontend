@@ -154,7 +154,7 @@ export default function Theme({props, children}) {
     let styles = Settings.style === "dark" ? darkTheme : lightTheme;
 
     return (
-        <ThemeProvider
+        <React.Fragment
             theme={Settings.appTheme}>
             {children({
                 classes,
@@ -163,6 +163,6 @@ export default function Theme({props, children}) {
                 theme,
                 styles
             })}
-        </ThemeProvider>
+        </React.Fragment>
     );
 }

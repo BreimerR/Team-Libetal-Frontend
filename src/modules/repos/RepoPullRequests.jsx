@@ -16,7 +16,7 @@ import Chip from "@material-ui/core/Chip";
 import MaterialSelect from "../../widgets/input/MaterialSelect";
 import Row from "../../widgets/Row";
 import Settings from "../../utils/Settings";
-import PaginationController from "../../widgets/PaginationController";
+import PaginationController from "../../widgets/pagination/PaginationController";
 import PullRequestsListView from "./PullRequestsListView";
 import Paper from "@material-ui/core/Paper";
 import Separator from "../../widgets/separator";

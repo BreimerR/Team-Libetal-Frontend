@@ -31,12 +31,16 @@ import AccessibilityControl from "../../widgets/AccessibilityControl";
 import {ThemeProvider} from "@material-ui/styles";
 import MaterialFileInputBase from "../../widgets/input/file/MaterialFileInputBase";
 import CreateRepoHelp from "./CreateRepoHelp";
+import Snackbar from "@material-ui/core/Snackbar";
 
 
 export default class CreateRepo extends Component {
 
     state = {
+        snackBarMessage: "",
+        snackBarVisibilityDuration: 800,
         selectedTeam: 0,
+        projectVisibilityStates: [],
         teams: [
             {
                 name: "Libetal"
@@ -95,7 +99,7 @@ export default class CreateRepo extends Component {
             name: undefined,
             // should be user id
             creator: 1,
-            private: false,
+            visibility: false,
             // either a file or an id
             license: undefined
         },
@@ -326,6 +330,24 @@ export default class CreateRepo extends Component {
         });
     }
 
+    get shareDistributionModel() {
+
+        let {} = this;
+
+        const {
+            orange,
+            purple,
+            green
+        } = Colors;
+
+        return (
+            <MaterialSelect
+                fullWidth
+                labelId={"Share Distribution"}
+            />
+        )
+    }
+
     get licensingInput() {
         return (
             <MaterialSelect
@@ -379,6 +401,13 @@ export default class CreateRepo extends Component {
     }
 
     get createForm() {
+
+        let {
+            state: {
+                projectVisibilityStates,
+                projectVisibilityIndex
+            }
+        } = this;
         return (
             <Paper style={{padding: 12}} elevation={4}>
                 <Row>
@@ -468,7 +497,7 @@ export default class CreateRepo extends Component {
                             />
                         </MaterialCol>
                     </GridItem>
-                    <GridItem xs={5}>
+                    <GridItem xs={12} sm={5}>
                         <Col justify={Flex.SPACE_EVENLY} alignItems={Flex.STRETCH}>
                             <GridItem>
                                 <MaterialDivider
@@ -616,29 +645,39 @@ export default class CreateRepo extends Component {
                                 text={"Licensing & Contribution"}
                                 textColor={Colors.blue}
                             />
+                            {this.shareDistributionModel}
                             {this.licensingInput}
                             <GridItem>
                                 <MaterialDivider
                                     spacing={6}
                                     color={Colors.transparent}
                                 />
-                                <Row alignItems={Flex.CENTER}>
-                                    <GridItem xs={6} lg={5}>
-                                        <Row alignItems={Flex.CENTER}>
-                                            <Checkbox checked={this.state.project.private} onClick={
-                                                e => {
-                                                    this.setState(
-                                                        state => {
+                                <MaterialRow alignItems={Flex.CENTER} justify={Flex.SPACE_BETWEEN}>
+                                    <GridItem xs={5} lg={5}>
+                                        {/*Being able to select the active members you'd prefer to have
+                                        a nested select isn't really the best way to go with this
+                                        as it has a state on multiple menu states bad for phones
+                                        */}
+                                        <MaterialSelect
+                                            fullWidth
+                                            labelId={"project-visibility-select"}
+                                            labelText={"Project Visibility"}
+                                            value={projectVisibilityIndex}
+                                            selectionItems={
+                                                this.state.projectVisibilityStates.map(
+                                                    ({title: value}, key) => ({key, value})
+                                                )
+                                            }
+                                            onChange={
+                                                ({target: {value} = {}}) => this.setState(state => {
 
-                                                            state.project.private = !state.project.private;
+                                                    state.projectVisibilityIndex = value;
+                                                    state.project.visibility = state.projectVisibilityStates[value];
 
-                                                            return state;
-                                                        }
-                                                    );
-                                                }
-                                            }/>
-                                            <MaterialTextView text={"private"} fontSize={12}/>
-                                        </Row>
+                                                    return state;
+                                                })
+                                            }
+                                        />
                                     </GridItem>
                                     <GridItem xs={6} lg={6}>
                                         <MaterialSelect
@@ -658,7 +697,7 @@ export default class CreateRepo extends Component {
                                             }
                                         />
                                     </GridItem>
-                                </Row>
+                                </MaterialRow>
                                 <MaterialDivider
                                     spacing={30}
                                     color={Colors.transparent}
@@ -718,10 +757,61 @@ export default class CreateRepo extends Component {
         );
     }
 
+    onProjectVisibilityStatesFetch({response: {code, message}, data, itemsCount}) {
+
+        if (code === 200) {
+            this.setState({projectVisibilityStates: data});
+            this.setState({projectVisibilityIndex: data.findIndex(({title = ""}) => title.toLowerCase() === "public")});
+        } else if (code >= 400 && code <= 500) {
+            this.setState({snackBarMessage: message});
+        } else {
+            this.setState({
+                snackBarMessage: (
+                    <MaterialCol>
+                        <MaterialTextView
+                            textColor={Colors.red}
+                            text={"Network Error"}
+                            variant={"h5"}
+                        />
+                        <MaterialTextView
+                            text={"Check your internet connection"}
+                        />
+                    </MaterialCol>
+                )
+            });
+        }
+    }
+
+    fetchProjectVisibilityStates() {
+        fetch("/data/projects/visibilityStates.json")
+            .then(content => content.json())
+            .then(this.onProjectVisibilityStatesFetch.bind(this));
+    }
+
+    fetchData() {
+        this.fetchProjectVisibilityStates();
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
     render() {
         let {
-            location
-        } = this.props;
+            props: {
+                location
+            },
+            state: {
+                vertical = "top",
+                horizontal = "center",
+                snackBarMessage = "",
+                snackBarVisibilityDuration
+            }
+        } = this;
+
+        snackBarMessage = snackBarMessage.trim();
+
+        let showNetworkErrorToast = !(snackBarMessage === "" || snackBarMessage === undefined);
 
         /**
          * Needs user details
@@ -734,10 +824,20 @@ export default class CreateRepo extends Component {
 
         return (
             <ThemeProvider theme={Settings.appTheme}>
+                <Snackbar
+                    anchorOrigin={{vertical, horizontal}}
+                    open={showNetworkErrorToast}
+                    autoHideDuration={snackBarVisibilityDuration}
+                    onClose={
+                        e => this.setState({snackBarMessage: ""})
+                    }
+                    message={snackBarMessage}
+                    key={vertical + horizontal}
+                />
                 <Paper elevation={0}>
                     <MaterialCol color={"primary"}>
                         {this.appBar}
-                       <MaterialDivider spacing={6} color={Colors.transparent}/>
+                        <MaterialDivider spacing={6} color={Colors.transparent}/>
                         <Row justify={Flex.SPACE_EVENLY}>
                             <GridItem xs={12} lg={7}>
                                 {this.createForm}

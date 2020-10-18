@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import MaterialIcon from "./MaterialIcon";
-import Row from "./Row";
-import MaterialBtn from "./MaterialBtn";
-import Flex from "./Flex";
-import Colors from "../Colors";
+import MaterialIcon from "../MaterialIcon";
+import MaterialBtn from "../MaterialBtn";
+import Flex from "../Flex";
+import Colors from "../../Colors";
+import MaterialRow from "../grid/MaterialRow";
+import GridItem from "../grid/GridItem";
 
 export default class PaginationController extends Component {
 
@@ -16,6 +17,8 @@ export default class PaginationController extends Component {
     };
 
     static defaultProps = {
+        startPage: 1,
+        visiblePageIndexControls: 1,
         onUpdate(currentPage, pageWidth) {
             console.log(`Unhandled page change for controller ${currentPage}`);
         }
@@ -24,6 +27,7 @@ export default class PaginationController extends Component {
         startPage: PropTypes.number,
         totalItems: PropTypes.number,
         itemsPerPage: PropTypes.number,
+        // This needs a default value depending on the items count
         visiblePageIndexControls: PropTypes.number,
         onUpdate: (currentPage) => console.log("Current page")
     };
@@ -204,25 +208,27 @@ export default class PaginationController extends Component {
             classes
         } = this.props;
 
-        let style = {padding:0,paddingLeft:0,paddingRight:0,minWidth:0}
+        let style = {padding: 0, paddingLeft: 0, paddingRight: 0, minWidth: 0};
         return (
-            <Row alignItems={Flex.CENTER} children={
-                [
-                    <MaterialBtn
-                        content={<MaterialIcon icon={"ChevronLeft"}/>}
-                        variant={"text"}
-                        style={style}
-                        onClick={() => this.currentPage -= 1}
-                    />,
-                    ...this.paginationIndexes,
-                    <MaterialBtn
-                        content={<MaterialIcon icon={"ChevronRight"}/>}
-                        variant={"text"}
-                        style={style}
-                        onClick={() => this.currentPage += 1}
-                    />
-                ]
-            }/>
+            <GridItem>
+                <MaterialRow alignItems={Flex.CENTER} children={
+                    [
+                        <MaterialBtn
+                            content={<MaterialIcon icon={"ChevronLeft"}/>}
+                            variant={"text"}
+                            style={style}
+                            onClick={() => this.currentPage -= 1}
+                        />,
+                        ...this.paginationIndexes,
+                        <MaterialBtn
+                            content={<MaterialIcon icon={"ChevronRight"}/>}
+                            variant={"text"}
+                            style={style}
+                            onClick={() => this.currentPage += 1}
+                        />
+                    ]
+                }/>
+            </GridItem>
         );
     }
 }

@@ -8,6 +8,7 @@ export default class ProjectsListView extends Component {
 
 
     static propTypes = {
+        navigator: PropTypes.func.isRequired,
         height: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
         maxHeight: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
         minHeight: PropTypes.oneOf([PropTypes.string, PropTypes.number])

@@ -24,6 +24,8 @@ import MaterialIcon from "../../../widgets/MaterialIcon";
 import Libetal from "../../../widgets/icons/Libetal";
 import CommitBranch from "../../../widgets/icons/CommitBranch";
 import ProjectsListView from "../../dashboard/projects/widgets/ProjectsListView";
+import PaginationController from "../../../widgets/pagination/PaginationController";
+import PaginationControllerWithItemsControls from "../../../widgets/pagination/PaginationControllerWithItemsControls";
 
 
 /**
@@ -48,6 +50,9 @@ export default class Profile extends Component {
 
 
     state = {
+        itemsPerPage: 5,
+        projectsCount: 121,
+        currentFragmentId: Profile.FRAGMENT_DETAILS,
         projects: [],
         profileHomeTab: 0,
         hoursDoneThisWeek: [1, 2],
@@ -61,7 +66,18 @@ export default class Profile extends Component {
         // pacing)
         visibleSteps: 4
     };
+    static FRAGMENT_DETAILS = 0;
+    static ACCOUNTS_INVESTMENTS = 1;
 
+    constructor(props) {
+        super(props);
+
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        this.onAppBarTabsChange = this.onAppBarTabsChange.bind(this);
+    }
 
     toolTipsLabelCallback(toolTip, data) {
         return `${toolTip.xLabel} ${toolTip.yLabel}hrs`;
@@ -401,7 +417,7 @@ export default class Profile extends Component {
     }
 
     updateCharts() {
-        console.log(`Charts are not redrawing on page change`)
+        console.log(`Charts are not redrawing on page change`);
     }
 
     get currentProfileTab() {
@@ -481,16 +497,25 @@ export default class Profile extends Component {
         this.fetchData();
     }
 
-    render() {
+    onAppBarTabsChange(layout, currentTab) {
+        this.setState({currentFragmentId: currentTab});
+    }
 
-        const {
-            navigator
-        } = this.props;
+    get currentFragment() {
 
-        return (
-            <ThemeProvider theme={Settings.appTheme}>
-                <AppBar navigator={navigator} componentInstance={this}/>
-                <Paper style={{borderRadius: 0}} elevation={0}>
+        let {
+            props: {},
+            state: {
+                profileHomeTab,
+                currentFragmentId,
+                itemsPerPage,
+                projectsCount
+            }
+        } = this;
+
+        switch (currentFragmentId) {
+            case Profile.FRAGMENT_DETAILS:
+                return <Paper style={{borderRadius: 0}} elevation={0}>
                     <MaterialRow justify={Flex.CENTER}>
                         <GridItem xs={12} sm={10} lg={9} marginTB={6}>
                             <Paper>
@@ -528,31 +553,62 @@ export default class Profile extends Component {
                                         <MaterialRow>
                                             Android, React, React-Native
                                         </MaterialRow>
-                                        <MaterialRow>
-                                            <Chip size={"small"} label={3.5}/>
+                                        <MaterialRow alignItems={Flex.CENTER}>
+                                            <Chip size={"small"} label={3.5} style={{
+                                                fontSize: "8pt",
+                                                color: Colors.white,
+                                                backgroundColor: Colors.green
+                                            }}/>
                                             <Spacer spacing={1} orientation={Spacer.VERTICAL}/>
-                                            <MaterialIcon icon={"StarBorder"}/>
+                                            <MaterialIcon icon={"StarBorder"} iconSize={16}/>
+                                            <MaterialIcon icon={"StarBorder"} iconSize={16}/>
+                                            <MaterialIcon icon={"StarBorder"} iconSize={16}/>
                                         </MaterialRow>
                                     </GridItem>
                                 </MaterialRow>
                             </Paper>
                             <Spacer orientation={Spacer.HORIZONTAL} spacing={4}/>
-                            <TabsLayout
-                                tabs={[
-                                    "Activity",
-                                    "Projects",
-                                    "Reviews"
-                                ]}
-                                onChange={
-                                    (e, profileHomeTab) => {
-                                        this.setState({profileHomeTab});
+                            <MaterialRow justify={Flex.CENTER} marginTB={6}>
+                                <TabsLayout
+                                    componentInstance={this}
+                                    tabLRPadding={8}
+                                    tabs={[
+                                        "Activity",
+                                        "Projects",
+                                        "Reviews"
+                                    ]}
+                                    onChange={
+                                        (e, profileHomeTab) => this.setState({profileHomeTab})
                                     }
-                                }
-                            />
+                                />
+                                <Separator/>
+                                <PaginationControllerWithItemsControls
+                                    display={profileHomeTab === 1 ? "initial" : "none"}
+                                    startPage={1}
+                                    visiblePageIndexControls={4}
+                                    itemsPerPage={itemsPerPage}
+                                    totalItems={projectsCount}/>
+                            </MaterialRow>
                             {this.currentProfileTab}
                         </GridItem>
                     </MaterialRow>
-                </Paper>
+                </Paper>;
+                break;
+            case Profile.ACCOUNTS_INVESTMENTS:
+                break;
+        }
+    }
+
+    render() {
+
+        const {
+            navigator
+        } = this.props;
+
+        return (
+            <ThemeProvider theme={Settings.appTheme}>
+                <AppBar navigator={navigator} componentInstance={this} onChange={this.onAppBarTabsChange}/>
+                {this.currentFragment}
                 <Footer navigator={navigator}/>
             </ThemeProvider>
         );

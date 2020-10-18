@@ -31,6 +31,9 @@ export default class MaterialTextField extends Component {
 
     static defaultProps = {
         color: "secondary",
+        onChange(e) {
+            console.log(`Unhandled event change`);
+        },
         onClick() {
 
         }
@@ -44,7 +47,7 @@ export default class MaterialTextField extends Component {
     }
 
     performOnChange(e) {
-        if (this.onChange !== undefined) this.onChange(e);
+        if (typeof this.onChange === "function") this.onChange(e);
         console.log("Unhandled input change");
     }
 

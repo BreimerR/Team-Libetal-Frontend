@@ -172,10 +172,13 @@ export default class MaterialFileInputBase extends Component {
                             fullWidth
                             onChange={
                                 e => {
-                                    let files = e.currentTarget.files;
-                                    this.setState({files: files}, () => {
-                                        onChange(files, this);
-                                    });
+                                    console.log(e)
+                                    if (e !== undefined) {
+                                        let files = e.currentTarget.files;
+                                        this.setState({files: files}, () => {
+                                            onChange(files, this);
+                                        });
+                                    }
                                 }
                             }
                             onClick={

@@ -14,7 +14,7 @@ import Colors from "../../Colors";
 import Separator from "../../widgets/separator";
 import MaterialTextView from "../../widgets/MaterialTextView";
 import PropTypes from "prop-types";
-import PaginationController from "../../widgets/PaginationController";
+import PaginationController from "../../widgets/pagination/PaginationController";
 import Settings from "../../utils/Settings";
 import Paper from "@material-ui/core/Paper";
 import SearchInputBase from "../../widgets/input/SearchInputBase";

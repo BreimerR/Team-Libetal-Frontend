@@ -12,7 +12,7 @@ import Chip from "@material-ui/core/Chip";
 import InputBase from "@material-ui/core/InputBase";
 import Grid from "@material-ui/core/Grid";
 import Footer from "../../Footer";
-import PaginationController from "../../../widgets/PaginationController";
+import PaginationController from "../../../widgets/pagination/PaginationController";
 import MaterialTextView from "../../../widgets/MaterialTextView";
 import List from "@material-ui/core/List";
 import HeaderOption from "../widgets/HeaderOption";
@@ -374,7 +374,7 @@ export default class Projects extends Component {
 
     get projectsListView() {
         return (
-            <ProjectsListView projects={this.state.projects.slice()}/>
+            <ProjectsListView projects={this.state.projects.slice()} navigator={this.props.navigator}/>
         );
     }
 

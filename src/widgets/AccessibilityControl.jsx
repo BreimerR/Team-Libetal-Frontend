@@ -8,17 +8,20 @@ export default class AccessibilityControl extends Component {
 
 
     static propTypes = {
+        ...MaterialIconButton.propTypes,
         componentInstance: PropTypes.object.isRequired
     };
 
     render() {
 
         let {
-            componentInstance
+            componentInstance,
+            iconColor,
         } = this.props;
         return (
             <MaterialIconButton
                 icon={"InvertColors"}
+                iconColor={iconColor}
                 onClick={
                     e => {
                         let {

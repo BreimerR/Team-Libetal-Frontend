@@ -10,7 +10,7 @@ import MaterialIcon from "../../widgets/MaterialIcon";
 import Chip from "@material-ui/core/Chip";
 import MaterialBtn from "../../widgets/MaterialBtn";
 import Colors from "../../Colors";
-import PaginationController from "../../widgets/PaginationController";
+import PaginationController from "../../widgets/pagination/PaginationController";
 import MaterialTextView from "../../widgets/MaterialTextView";
 import Settings from "../../utils/Settings";
 import HeaderOption from "./widgets/HeaderOption";

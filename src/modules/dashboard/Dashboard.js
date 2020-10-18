@@ -344,20 +344,21 @@ export default class Dashboard extends Component {
     get currentBody() {
 
         let {
-            navigator
+            navigator,
+            classes
         } = this.props;
 
         switch (this.state.currentTab) {
             case 0:
-                return <Projects classes={this.props.classes} navigator={navigator}/>;
+                return <Projects classes={classes} navigator={navigator}/>;
             case 1:
                 return <Issues navigator={navigator}/>;
             case  2:
                 return (<Teams navigator={navigator}/>);
             case 6:
-                return <Insights classes={this.props.classes} navigator={navigator}/>;
+                return <Insights classes={classes} navigator={navigator}/>;
             default:
-                return <Projects classes={this.props.classes} navigator={navigator}/>;
+                return <Projects classes={classes} navigator={navigator}/>;
         }
 
     }

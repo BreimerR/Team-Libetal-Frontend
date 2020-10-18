@@ -62,13 +62,38 @@ export default class TabsLayout extends Component {
         ]).isRequired,
         defaultTabIndex: PropTypes.number,
         orientation: PropTypes.oneOf(["horizontal", "vertical"]),
+        /**TODO
+         * use this component variable to set
+         * the state of currentTab
+         * but would need to generate a unique id for the tab
+         * or name the tab this is because onReDrawOf the component
+         * hosting this tab the value reverts to the first
+         * tab where else it should revert to the one that was there
+         * and that can be referenced from the root component
+         * given it's state does not change while this child states are
+         * reset between redraws
+         *
+         * but if we perform onChange here this needs to remember
+         * to call  
+         * onBeforeChange
+         * onChange
+         * */
+        componentInstance: PropTypes.any,
+        marginTB: PropTypes.number,
+        marginLR: PropTypes.number,
+        marginLeft: PropTypes.number,
+        marginRight: PropTypes.number,
+        marginTop: PropTypes.number,
+        marginBottom: PropTypes.number,
         minTabHeight: PropTypes.number,
+        tabMinHeight: PropTypes.number,
         width: PropTypes.number,
         minTabWidth: PropTypes.number,
         tabMarginLeft: PropTypes.number,
         tabMarginRight: PropTypes.number,
         tabMarginTop: PropTypes.number,
         tabMarginBottom: PropTypes.number,
+        tabBottomMargin: PropTypes.number,
         tabTBPadding: PropTypes.number,
         tabLRPadding: PropTypes.number,
         tabLeftPadding: PropTypes.number,
@@ -98,6 +123,7 @@ export default class TabsLayout extends Component {
         defaultTabIndex: 0,
         orientation: "horizontal",
         minTabHeight: 20,
+        tabMinHeight: 20,
         minTabWidth: 20,
         showIndicator: true,
         onItemClick: e => {
@@ -113,7 +139,8 @@ export default class TabsLayout extends Component {
             tabs: propTabs,
             tabStyle,
             minTabWidth,
-            minTabHeight,
+            tabMinHeight,
+            minTabHeight = tabMinHeight,
             tabLRMargin,
             tabTBMargin,
             tabLeftMargin = tabLRMargin,
@@ -211,7 +238,22 @@ export default class TabsLayout extends Component {
 
         let {
             tabs,
+            style: {
+                margin: sMargin,
+                marginLeft: sMarginLeft,
+                marginRight: sMarginRight,
+                marginTop: sMarginTop,
+                marginBottom: sMarginBottom,
+                ...style
+            } = {},
             tabStyle: {...tabStyle} = {},
+            margin = sMargin,
+            marginTB = margin,
+            marginLR = margin,
+            marginLeft = marginLR || sMarginLeft,
+            marginRight = marginLR || sMarginRight,
+            marginTop = marginTB || sMarginTop,
+            marginBottom = marginTB || sMarginBottom,
             defaultTabIndex,
             minTabWidth,
             orientation,
@@ -234,7 +276,6 @@ export default class TabsLayout extends Component {
             onTabChangeRequest,
             onTabChangeRejected,
             showIndicator,
-            style = {},
             width,
             onItemClick,
             ...props
@@ -266,6 +307,10 @@ export default class TabsLayout extends Component {
             minHeight: minTabHeight,
             padding: 0,
             paddingTop: 0,
+            marginLeft,
+            marginRight,
+            marginTop,
+            marginBottom,
             width: width
         };
 

@@ -22,7 +22,7 @@ export default class MaterialSelect extends Component {
         maxRows: undefined,
         selectionFooter: undefined,
         value: "",
-        onChange(item) {
+        onChange(e, item) {
             console.log(`Unhandled item select change`);
         },
         renderValue: undefined

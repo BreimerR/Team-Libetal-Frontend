@@ -41,21 +41,28 @@ export default class CreateRepoHelp extends Component {
         let {
             showCreateHelp
         } = this.state;
+        let {
+            orange,
+            purple,
+            white
+        } = Colors
 
         let emStyle = {
-            color :Colors.orange
+            color :orange
         }
+
+
 
         return (
             <Paper elevation={6}>
-                <Toolbar style={{backgroundColor: Colors.purple}}>
+                <Toolbar style={{backgroundColor: purple}}>
                     <MaterialTextView
                         text={"Help"}
-                        textColor={Colors.white}
+                        textColor={white}
                     />
                     <Separator/>
                     <InputBase
-                        style={{color: Colors.white}}
+                        style={{color: white}}
                         placeholder={"Search in{help:Projects}"}
                     />
                     <MaterialIconButton
@@ -94,7 +101,7 @@ export default class CreateRepoHelp extends Component {
                                                 Clear and relatable words go a long way.
                                             </li>
                                             <li>
-                                                <em style={{color:Colors.orange}}>Team</em>.
+                                                <em style={{color:orange}}>Team</em>.
                                                 Is there a team you want to tell about the project, or
                                                 are you already in a team and want to use that as the team to start production?
                                                 You can assign or request a team to the project.
@@ -103,20 +110,26 @@ export default class CreateRepoHelp extends Component {
                                                 Or the whole team can take on the project that depends on the teams decisions.
                                             </li>
                                             <li>
-                                                <em style={{color:Colors.orange}}>Category</em>.
+                                                <em style={{color:orange}}>Category</em>.
                                                 This is the use case category of your project.
                                             </li>
                                             <li>
-                                                <em style={{color:Colors.orange}}>Languages</em>.
+                                                <em style={{color:orange}}>Languages</em>.
                                                 Programing languages used in product creation.
                                             </li>
                                             <li>
-                                                <em style={{color:Colors.orange}}>Technologies</em>.
+                                                <em style={{color:orange}}>Technologies</em>.
                                                 Any framework, library or api required by the product for basic or advance use
                                                 of the product.
                                             </li>
                                             <li>
-                                                <em style={{color:Colors.orange}}>Licensing</em>.
+                                                <em style={{color:orange}}>Licensing</em>.
+                                                This is the license agreement that is going to describe project contributions
+                                                agreement. How contributors are going to benefit from contributing to the
+                                                project.
+                                            </li>
+                                            <li>
+                                                <em style={{color:orange}}>Project Visibility</em>.
                                                 This is the license agreement that is going to describe project contributions
                                                 agreement. How contributors are going to benefit from contributing to the
                                                 project.

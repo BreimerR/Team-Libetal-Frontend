@@ -46,8 +46,11 @@ export default class AppBar extends Component {
                 <Toolbar>
                     <MaterialRow alignItems={Flex.CENTER} justify={Flex.SPACE_BETWEEN} alignContent={Flex.END}>
                         <HomeImageButton navigator={navigator}/>
-                        <MaterialRow xs={6} xm={8} lg={5} justify={Flex.CENTER}>
+                        <MaterialRow xs={6} xm={8} lg={5} justify={Flex.START}>
                             <TabsLayout
+                                tabBottomMargin={2}
+                                tabMinHeight={32}
+                                tabLRPadding={8}
                                 tabs={[
                                     "Profile",
                                     "Accounting & Returns"
@@ -56,7 +59,7 @@ export default class AppBar extends Component {
                             />
                         </MaterialRow>
                         <MaterialRow xs={12} xm={6} lg={3} alignItems={Flex.CENTER} justify={Flex.END}>
-                            <Paper style={{paddingLeft:8,paddingRight:8,paddingTop:4,paddingBottom:4}}>
+                            <Paper style={{paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 4}}>
                                 <SearchInputBase placeholder={"Search Account"}/>
                             </Paper>
                         </MaterialRow>

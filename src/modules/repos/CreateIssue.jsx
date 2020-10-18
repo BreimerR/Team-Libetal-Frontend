@@ -31,7 +31,7 @@ export default class CreateIssue extends Component {
 
 
     state = {
-        formReady:false,
+        formReady: false,
         issue: {
             project: {
                 id: 0,
@@ -350,7 +350,7 @@ export default class CreateIssue extends Component {
             <MaterialBtn
                 disabled={!formReady}
                 content={"Create"}
-                color={formReady ? green: grey_lighten_3}
+                color={formReady ? green : grey_lighten_3}
                 textColor={formReady ? white : grey}
                 onClick={
                     e => {
@@ -491,9 +491,9 @@ export default class CreateIssue extends Component {
                                                             maxRows={2}
                                                             defaultRows={2}
                                                             onChange={
-                                                                (e, input) => {
+                                                                e => {
                                                                     this.setState(state => {
-                                                                        state.customIssue.description = input.props.value;
+                                                                        state.customIssue.description = e.target.value;
                                                                         return state;
                                                                     });
                                                                 }

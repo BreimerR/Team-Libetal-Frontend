@@ -16,7 +16,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import ListItem from "@material-ui/core/ListItem";
 import MaterialBtn from "../../widgets/MaterialBtn";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import {createMuiTheme} from "@material-ui/core/styles";
+import {createMuiTheme, ThemeProvider} from "@material-ui/core/styles";
 import purple from "@material-ui/core/colors/purple";
 import green from "@material-ui/core/colors/green";
 import Row from "../../widgets/Row";
@@ -31,6 +31,12 @@ import MaterialDivider from "../../widgets/MaterialDivider";
 import MaterialCol from "../../widgets/grid/MaterialCol";
 import MaterialRow from "../../widgets/grid/MaterialRow";
 import GridItem from "../../widgets/grid/GridItem";
+import Settings from "../../utils/Settings";
+import Separator from "../../widgets/separator";
+import Spacer from "../../widgets/dividers/Spacer";
+import {SpaceBar} from "@material-ui/icons";
+import AccessibilityControl from "../../widgets/AccessibilityControl";
+import UserAccountButton from "../users/widgets/UserAccountsButton";
 
 const theme = createMuiTheme({
     palette: {
@@ -269,11 +275,10 @@ export default class Home extends View {
                         </MaterialRow>
                     </MaterialRow>
                     {this.projectEstimationAndEvaluation}
-                    <MaterialDivider width={"100%"} color={Colors.transparent} spacing={16}/>
+                    <Spacer spacing={16} orientation={Spacer.VERTICAL}/>
                     {this.projectManagement}
-                    <MaterialDivider width={"100%"} color={Colors.transparent} spacing={16}/>
+                    <Spacer spacing={16} orientation={Spacer.VERTICAL}/>
                     {this.contributeSection}
-                    <MaterialDivider width={"100%"} color={Colors.transparent} spacing={16}/>
                     {this.partnership}
                 </MaterialRow>
                 <Footer/>
@@ -281,29 +286,34 @@ export default class Home extends View {
         );
     }
 
+    get bottomSectionColor() {
+        return Colors.alpha(Settings.palette === "light" ? "white" : "black", .8);
+    }
+
     get partnership() {
         return (
-            <Row style={{marginTop: 16, marginBottom: 16}} justify={Flex.CENTER}>
+            <MaterialRow paddingTB={16} justify={Flex.CENTER} backgroundColor={this.bottomSectionColor}>
                 <MaterialTextView
                     text={"Our Partners"}
                     variant={"h4"}
                     textColor={Colors.red}
                 />
-                <Row>
-                    <Column xs={6} lg={2}>
+                <MaterialRow>
+                    <MaterialCol xs={6} lg={2}>
                         <Paper>
 
                         </Paper>
-                    </Column>
-                </Row>
-            </Row>
+                    </MaterialCol>
+                </MaterialRow>
+            </MaterialRow>
         );
     }
 
     get contributeSection() {
 
         return (
-            <MaterialRow justify={Flex.CENTER} style={{marginTop: 12}}>
+
+            <MaterialRow justify={Flex.CENTER} marginTop={4} backgroundColor={this.bottomSectionColor}>
                 <MaterialCol alignItems={Flex.CENTER}>
                     <MaterialTextView
                         text={"Contribute To Libetal"}
@@ -334,23 +344,23 @@ export default class Home extends View {
             <MaterialRow marginTop={24} justify={Flex.SPACE_EVENLY}>
                 <GridItem xs={12} lg={6}>
                     <Paper>
-                        <img src={"/images/project_estimation.png"} width={"100%"}/>
+                        <img src={`/images/commits_view.${Settings.palette}.png`} width={"100%"}/>
                     </Paper>
                 </GridItem>
                 <GridItem xs={12} lg={4}>
                     <MaterialCol alignItems={Flex.SPACE_AROUND}>
                         <Paper style={{paddingLeft: 6, paddingRight: 6, paddingTop: 12, paddingBottom: 12}}>
-                            <Row justify={Flex.CENTER}>
+                            <MaterialRow justify={Flex.CENTER}>
                                 <MaterialTextView
                                     variant={"h5"}
                                     textColor={Colors.green}>
                                     Pricing, Estimation and
                                     Evaluation.
                                 </MaterialTextView>
-                            </Row>
-                            <Row>
-                                <Column alignItems={Flex.CENTER}>
-                                    <Row justify={Flex.END}>
+                            </MaterialRow>
+                            <MaterialRow>
+                                <MaterialCol alignItems={Flex.CENTER}>
+                                    <MaterialRow justify={Flex.END}>
                                         <MaterialTextView
                                             text={"Pricing and evaluations are done by the project creator, and agreed upon by the developer/contributor."}
                                             fontSize={14}
@@ -359,9 +369,9 @@ export default class Home extends View {
                                             }}
                                         />
 
-                                    </Row>
-                                </Column>
-                            </Row>
+                                    </MaterialRow>
+                                </MaterialCol>
+                            </MaterialRow>
 
                         </Paper>
                         <MaterialDivider spacing={12} color={Colors.transparent}/>
@@ -407,7 +417,8 @@ export default class Home extends View {
                 </GridItem>
                 <GridItem xs={12} lg={7}>
                     <Paper>
-                        <img src={"/images/project.management.issues.png"} alt={"Project Management"} width={"100%"}/>
+                        <img src={`/images/project.management.issues.${Settings.palette}.png`}
+                             alt={"Project Management"} width={"100%"}/>
                     </Paper>
                 </GridItem>
             </MaterialRow>
@@ -425,46 +436,40 @@ export default class Home extends View {
         };
 
         return (
-            <Row ref={this.ref}>
-                <CssBaseline/>
-                <AppBar position="static" elevation={4} className={appTheme.homeAppBar}>
-                    <MaterialRow className={appTheme.homeHeader}>
-                        <GridItem xs={12} lg={7}>
-                            <MaterialRow alignItems={Flex.CENTER}>
-                                <GridItem xs={12} lg={6}>
-                                    <img
-                                        style={marginAuto}
-                                        src={"/images/LogoWhiteSkew.png"}
-                                        width={"inherit"}
-                                    />
-                                </GridItem>
-                                <GridItem xs={12} lg={6}>
-                                    <img
-                                        style={marginAuto}
-                                        src={"/images/BrandingLongBetaWhite.png"}
-                                        width={"90%"}
-
-                                    />
-                                </GridItem>
-                            </MaterialRow>
-                        </GridItem>
-                        <GridItem item xs={12} lg={5}>
-                            <GridItem>
-                                <Toolbar className={appTheme.homeToolbar}>
-                                    {
-                                        userDetails === null ? this.getLoginView(appTheme, classes) : this.accountAppBar(appTheme)
-                                    }
-                                </Toolbar>
+            <ThemeProvider theme={Settings.appTheme}>
+                <MaterialRow ref={this.ref}>
+                    <CssBaseline/>
+                    <AppBar position="static" elevation={4} className={appTheme.homeAppBar}>
+                        <MaterialRow className={appTheme.homeHeader}>
+                            <GridItem xs={12} lg={6}>
+                                <MaterialRow alignItems={Flex.CENTER}>
+                                    <GridItem xs={12} lg={6}>
+                                        <img
+                                            style={marginAuto}
+                                            src={"/images/LogoWhiteSkew.png"}
+                                            width={"inherit"}
+                                            alt={"Libetal"}/>
+                                    </GridItem>
+                                    <GridItem xs={12} lg={6}>
+                                        <img
+                                            style={marginAuto}
+                                            src={"/images/BrandingLongBetaWhite.png"}
+                                            width={"90%"}
+                                            alt={"Libetal"}
+                                        />
+                                    </GridItem>
+                                </MaterialRow>
                             </GridItem>
-                            {this.listItems()}
-                        </GridItem>
-                    </MaterialRow>
-                </AppBar>
-                {/* Hero unit */}
-                <Grid container>
+                            <MaterialCol item xs={12} lg={6}>
+                                {this.getLoginView(appTheme, classes)}
+                                {this.listItems()}
+                            </MaterialCol>
+                        </MaterialRow>
+                    </AppBar>
+                    {/* Hero unit */}
                     {this.body}
-                </Grid>
-            </Row>
+                </MaterialRow>
+            </ThemeProvider>
         );
     }
 
@@ -531,34 +536,35 @@ export default class Home extends View {
 
     getLoginView(appTheme, classes) {
         return (
-            <>
-                <div className={classes.grow}/>
-                <nav className={appTheme.alignChildRight}>
-                    <MaterialBtn
-                        variant={"default"}
-                        onClick={() => this.accessAccount()}
-                        startIcon={<AccountCircleIcon/>}
-                        content={"Login/Register"}
-                    />
-                    <MaterialBtn
-                        variant={"default"}
-                        content={"About Us"}
-                        onClick={() => {
-                            this.props.navigator("about");
-                        }}
-                    />
-                    <MaterialBtn
-                        variant={"default"}
-                        onClick={this.openDashboard}
-                        content={"Dashboard"}/>
-                    <MaterialBtn
-                        variant={"default"}
-                        onClick={this.openAppStore}
-                        startIcon={<AppsIcon/>}
-                        content={"Store"}
-                    />
-                </nav>
-            </>
+            <MaterialRow justify={Flex.SPACE_AROUND} alignItems={Flex.CENTER} paddingTB={4}>
+                <MaterialBtn
+                    variant={"default"}
+                    onClick={this.openAppStore}
+                    startIcon={<AppsIcon/>}
+                    content={"Store"}
+                    textColor={Colors.white}
+                />
+
+                <MaterialBtn
+                    variant={"default"}
+                    content={"About Us"}
+                    textColor={Colors.white}
+                    onClick={() => {
+                        this.props.navigator("about");
+                    }}
+                />
+
+                <MaterialBtn
+                    variant={"default"}
+                    onClick={this.openDashboard}
+                    content={"Dashboard"}
+                    textColor={Colors.white}
+                />
+
+                <AccessibilityControl componentInstance={this} iconColor={Colors.white}/>
+
+                <UserAccountButton navigator={this.props.navigator} variant={"text"}/>
+            </MaterialRow>
         );
     }
 

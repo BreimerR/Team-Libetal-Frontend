@@ -14,6 +14,7 @@ import {ThemeProvider} from "@material-ui/styles";
 import Settings from "./utils/Settings";
 import CreateIssue from "./modules/repos/CreateIssue";
 import Profile from "./modules/users/profile/Profile";
+import Users from "./modules/users/Users";
 
 class AppComponent extends Component {
 
@@ -80,11 +81,10 @@ class AppComponent extends Component {
                                                 )
                                             }
                                         />
+
                                         <Route path="/users"
                                                component={() => (
-                                                   <>
-                                                       Users
-                                                   </>
+                                                   <Users navigator={navigateTo}/>
                                                )}
                                         />
 
