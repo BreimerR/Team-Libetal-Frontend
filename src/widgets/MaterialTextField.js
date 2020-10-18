@@ -87,9 +87,9 @@ export default class MaterialTextField extends Component {
                     variant={variant}
                     onClick={
                         e => {
-                            let propagate = onClick(e);
+                            let handled = onClick(e);
 
-                            if (propagate || propagate === undefined) e.stopPropagation();
+                            if (handled === undefined || handled === true) e.stopPropagation();
 
                         }
                     }

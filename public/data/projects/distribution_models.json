@@ -1,0 +1,26 @@
+{
+  "response": {
+    "code": 200,
+    "message": "success"
+  },
+  "data": [
+    {
+      "id": 1,
+      "title": "Contribution Weight",
+      "url": "/distributions/models/contributor_weight",
+      "description": "Contributions weight, this evaluates shares distributions based on contributors cost. i.e If user x worked on a  feature and the evaluated cost is 10000 and cost of development is 11000 and the agreed cost is 10500. Then with sumation of all total contributions we do an evaluation of 10500 as a percentage of the total development cost."
+    },
+    {
+      "id": 2,
+      "title": "Pre-ShareEvaluation Contribution",
+      "url": "/distributions/models/custom",
+      "description": "In this model the project creator has to provide an estimation of what it would cost to, get the project funded 100%  and the share value of that cost. i.e company x with evaluation of 1m for 1% would mean for income base"
+    },
+    {
+      "id": 3,
+      "title": "Custom",
+      "url": "",
+      "description": ""
+    }
+  ]
+}

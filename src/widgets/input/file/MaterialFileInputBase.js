@@ -31,6 +31,7 @@ export default class MaterialFileInputBase extends Component {
         helperText: PropTypes.string,
         onMount: PropTypes.func,
         onClick: PropTypes.func,
+        onInputClick: PropTypes.func,
         flexGrow: PropTypes.number,
         actionSize: PropTypes.number,
         inputSize: PropTypes.number,
@@ -77,6 +78,7 @@ export default class MaterialFileInputBase extends Component {
             accept = accept.map(type => `.${type}`).join(",");
         }
 
+
         // Input base does not accept accept attribute type
         this.ref.current.setAttribute("accept", accept);
     }
@@ -85,6 +87,7 @@ export default class MaterialFileInputBase extends Component {
     reset() {
         this.ref.current.value = "";
     }
+
 
     render() {
         let {
@@ -99,6 +102,7 @@ export default class MaterialFileInputBase extends Component {
             inputStyle: {...inputStyle},
             style: {...style},
             onClick,
+            onInputClick,
             ClearButton,
             ClearButtonProps = {},
             ActionButton,
@@ -172,7 +176,6 @@ export default class MaterialFileInputBase extends Component {
                             fullWidth
                             onChange={
                                 e => {
-                                    console.log(e)
                                     if (e !== undefined) {
                                         let files = e.currentTarget.files;
                                         this.setState({files: files}, () => {
@@ -181,16 +184,7 @@ export default class MaterialFileInputBase extends Component {
                                     }
                                 }
                             }
-                            onClick={
-                                e => {
-                                    let propagate = onClick(e);
-
-                                    if (propagate === true || propagate === undefined) {
-                                        e.stopPropagation();
-                                    }
-                                }
-                            }
-
+                            onClick={onInputClick}
                             multiple={multiple}
                             style={style}
                             disabled={disabled}

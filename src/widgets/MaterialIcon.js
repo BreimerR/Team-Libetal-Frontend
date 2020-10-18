@@ -24,6 +24,7 @@ export default class MaterialIcon extends React.Component {
             "Code",
             "Copyright",
             "WatchLater",
+            "OpenInNew",
             "Save",
             "FilterList",
             "AttachFile",

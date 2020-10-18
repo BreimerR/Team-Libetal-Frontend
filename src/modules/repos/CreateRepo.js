@@ -3,7 +3,7 @@ import Column from "../../widgets/Column";
 import TextView from "../../widgets/MaterialTextView";
 import MaterialTextView from "../../widgets/MaterialTextView";
 import Flex from "../../widgets/Flex";
-import {AppBar, InputBase as Input, MenuItem, Paper, Select, Toolbar} from "@material-ui/core";
+import {AppBar, InputBase as Input, Link, MenuItem, Paper, Select, Toolbar} from "@material-ui/core";
 import Colors from "../../Colors";
 import MaterialIconButton from "../../widgets/button/MaterialIconButton";
 import Settings from "../../utils/Settings";
@@ -32,6 +32,8 @@ import {ThemeProvider} from "@material-ui/styles";
 import MaterialFileInputBase from "../../widgets/input/file/MaterialFileInputBase";
 import CreateRepoHelp from "./CreateRepoHelp";
 import Snackbar from "@material-ui/core/Snackbar";
+import MaterialFileInput from "../../widgets/MaterialFileInput";
+import Spacer from "../../widgets/dividers/Spacer";
 
 
 export default class CreateRepo extends Component {
@@ -138,7 +140,11 @@ export default class CreateRepo extends Component {
             Web: ["Cloud", "SAAS", "Productivity"],
             Mobile: ["Entertainment", "Education"],
             Embedded: ["Robotics", "Drivers"]
-        }
+        },
+        distributionModels: [],
+        currentFile: {name: ""},
+        distributionModelIndex: undefined,
+        customDistributionModelIndex: undefined
     };
 
     static propTypes = {
@@ -332,7 +338,14 @@ export default class CreateRepo extends Component {
 
     get shareDistributionModel() {
 
-        let {} = this;
+        let {
+            state: {
+                distributionModels,
+                distributionModelIndex,
+                currentFile,
+                customDistributionModelIndex
+            }
+        } = this;
 
         const {
             orange,
@@ -340,12 +353,78 @@ export default class CreateRepo extends Component {
             green
         } = Colors;
 
+
         return (
             <MaterialSelect
                 fullWidth
-                labelId={"Share Distribution"}
+                value={distributionModelIndex}
+                labelText={"Share Distribution"}
+                labelId={"share-distribution-label"}
+                selectionHeader={
+                    <MaterialFileInputBase
+                        fullWidth
+                        actionSize={3}
+                        inputSize={8}
+                        clearSize={1}
+                        disabled={distributionModelIndex !== customDistributionModelIndex}
+                        ActionButton={MaterialBtn}
+                        ActionButtonButtonProps={{
+                            content: "File"
+                        }}
+                        onChange={
+                            ([file = {}, ...otherFiles]) => {
+                                this.setState({currentFile: file});
+                            }
+                        }
+                        onInputClick={e => true}
+                    />
+                }
+                onChange={
+                    e => {
+                        if (e !== undefined) this.setState(
+                            {
+                                distributionModelIndex: e.target.value
+                            }
+                        );
+                    }
+                }
+                renderValue={
+                    selected => {
+                        let value = distributionModels[distributionModelIndex];
+                        return value === undefined ? "Custom" : value.title;
+                    }
+                }
+
+                selectionItems={
+                    distributionModels.map(
+                        ({id, title, url, description}, i) => {
+
+                            let itemClick = e => {
+                                if (title.toLowerCase() === "custom") {
+                                    this.setState({distributionModelIndex: customDistributionModelIndex});
+                                    e.stopPropagation();
+                                }
+                            };
+
+                            return {
+                                key: i,
+                                value: (
+                                    <MaterialRow alignItems={Flex.CENTER} onClick={itemClick}>
+                                        {title.toLowerCase() === "custom" ? `${title}: SelectFile` : title}
+                                        <Separator/>
+                                        <Link underline={"none"} target={"_blank"} href={url}>
+                                            <MaterialIcon
+                                                icon={"OpenInNew"}
+                                            />
+                                        </Link>
+                                    </MaterialRow>
+                                )
+                            };
+                        }
+                    )
+                }
             />
-        )
+        );
     }
 
     get licensingInput() {
@@ -637,8 +716,7 @@ export default class CreateRepo extends Component {
                                     />
                                 </Row>
                             </GridItem>
-                            <MaterialDivider
-                                color={Colors.transparent}
+                            <Spacer
                                 spacing={6}
                             />
                             <MaterialTextView
@@ -652,7 +730,7 @@ export default class CreateRepo extends Component {
                                     spacing={6}
                                     color={Colors.transparent}
                                 />
-                                <MaterialRow alignItems={Flex.CENTER} justify={Flex.SPACE_BETWEEN}>
+                                <MaterialRow alignItems={Flex.CENTER} justify={Flex.SPACE_BETWEEN} marginBottom={16}>
                                     <GridItem xs={5} lg={5}>
                                         {/*Being able to select the active members you'd prefer to have
                                         a nested select isn't really the best way to go with this
@@ -664,15 +742,14 @@ export default class CreateRepo extends Component {
                                             labelText={"Project Visibility"}
                                             value={projectVisibilityIndex}
                                             selectionItems={
-                                                this.state.projectVisibilityStates.map(
+                                                projectVisibilityStates.map(
                                                     ({title: value}, key) => ({key, value})
                                                 )
                                             }
                                             onChange={
                                                 ({target: {value} = {}}) => this.setState(state => {
-
                                                     state.projectVisibilityIndex = value;
-                                                    state.project.visibility = state.projectVisibilityStates[value];
+                                                    state.project.visibility = projectVisibilityStates[value];
 
                                                     return state;
                                                 })
@@ -698,10 +775,7 @@ export default class CreateRepo extends Component {
                                         />
                                     </GridItem>
                                 </MaterialRow>
-                                <MaterialDivider
-                                    spacing={30}
-                                    color={Colors.transparent}
-                                />
+
                                 <Row justify={Flex.SPACE_AROUND}>
                                     <GridItem>
                                         <MaterialBtn
@@ -761,7 +835,12 @@ export default class CreateRepo extends Component {
 
         if (code === 200) {
             this.setState({projectVisibilityStates: data});
-            this.setState({projectVisibilityIndex: data.findIndex(({title = ""}) => title.toLowerCase() === "public")});
+            this.setState(state => {
+
+                state.projectVisibilityIndex = data.findIndex(({title = ""}) => title.toLowerCase() === "public");
+
+                return state;
+            });
         } else if (code >= 400 && code <= 500) {
             this.setState({snackBarMessage: message});
         } else {
@@ -782,6 +861,25 @@ export default class CreateRepo extends Component {
         }
     }
 
+    onDistributionModelsFetch({response, data}) {
+        if (response.code === 200) {
+            this.setState({distributionModels: data});
+            this.setState(state => {
+
+                state.distributionModelIndex = data.findIndex(({title, id}) => title.toLowerCase() === "contribution weight");
+                state.customDistributionModelIndex = data.findIndex(({title, id}) => title.toLowerCase() === "custom");
+
+                return state;
+            });
+        }
+    }
+
+    fetchDistributionModels() {
+        fetch("/data/projects/distribution_models.json")
+            .then(content => content.json())
+            .then(this.onDistributionModelsFetch.bind(this));
+    }
+
     fetchProjectVisibilityStates() {
         fetch("/data/projects/visibilityStates.json")
             .then(content => content.json())
@@ -790,6 +888,7 @@ export default class CreateRepo extends Component {
 
     fetchData() {
         this.fetchProjectVisibilityStates();
+        this.fetchDistributionModels();
     }
 
     componentDidMount() {
