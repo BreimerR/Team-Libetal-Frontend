@@ -1,17 +1,19 @@
 import React from "react";
 import {Typography} from "@material-ui/core";
 import PropTypes from "prop-types";
+import View from "../modules/repos/contributions/View";
 
 
 export default class MaterialTextView extends React.Component {
 
 
     static propTypes = {
-        textAlign:PropTypes.oneOf(["left","right","center"]),
-        textColor:PropTypes.string,
+        ...View.propTypes,
+        textAlign: PropTypes.oneOf(["left", "right", "center"]),
+        textColor: PropTypes.string,
         text: PropTypes.string,
-        variant: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6", "small", "body", "body1", "body2","caption"]),
-        fontSize:PropTypes.oneOfType([PropTypes.string,PropTypes.number])
+        variant: PropTypes.oneOf(["h1", "h2", "h3", "h4", "h5", "h6", "small", "body", "body1", "body2", "caption"]),
+        fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     };
 
     static  defaultProps = {
@@ -20,34 +22,34 @@ export default class MaterialTextView extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.ref = React.createRef();
+
     }
 
     render() {
 
         let {
-            textColor,
             text,
             variant,
-            fontSize,
-            textAlign,
-            style: {fontSize: cFontSize, ...style},
+            style: {fontSize: cFontSize, sColor, textAlign: sTextAlign},
+            textAlign = sTextAlign,
+            fontSize = cFontSize,
+            textColor = sColor,
+            color = textColor,
             ...props
         } = this.props;
 
-        style.textAlign = textAlign || style.textAlign
-
-        if (variant === undefined) style.fontSize = fontSize || cFontSize;
+        let style = {
+            ...View.extractStyles(this.props),
+            textAlign,
+            fontSize,
+            color
+        };
 
         return (
             <Typography
-
                 {...props}
-                style={{
-                    ...style,
-                    color:textColor
-                }}
+                style={style}
                 variant={variant}>
                 {text}
                 {this.props.children}

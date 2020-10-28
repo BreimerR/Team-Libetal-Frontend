@@ -1,80 +1,49 @@
 import React, {Component} from "react";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
+import View from "../../modules/repos/contributions/View";
 
 export default class GridItem extends Component {
 
+    static sizeType = PropTypes.oneOfType(
+        [
+            PropTypes.bool,
+            PropTypes.oneOf(
+                ["auto", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+            )
+        ]
+    );
+
     static propTypes = {
-        padding: PropTypes.number,
-        paddingRight: PropTypes.number,
-        paddingLeft: PropTypes.number,
-        paddingTop: PropTypes.number,
-        paddingBottom: PropTypes.number,
-        marginLeft: PropTypes.number,
-        marginLR: PropTypes.number,
-        marginRight: PropTypes.number,
-        marginTop: PropTypes.number,
-        marginBottom: PropTypes.number,
-        paddingLR: PropTypes.number,
-        paddingTB: PropTypes.number,
-        flexGrow: PropTypes.number,
-        height: PropTypes.number,
-        width: PropTypes.number,
-        minHeight: PropTypes.number,
-        backgroundColor: PropTypes.string,
-        overflowY: PropTypes.string
+        ...View.propTypes,
+        xs: GridItem.sizeType,
+        xm: GridItem.sizeType,
+        xl: GridItem.sizeType,
+        sm: GridItem.sizeType,
+        flexGrow: PropTypes.number
     };
 
     render() {
         let {
-            style: {
-                minHeight: sMinHeight,
-                padding: sPadding,
-                margin: sMargin,
-                marginLeft: sMarginLeft,
-                marginRight: sMarginRight,
-                marginTop: sMarginTop,
-                marginBottom: sMarginBottom,
-                ...style
-            } = {},
-            padding = sPadding,
-            paddingLR = padding,
-            paddingTB = padding,
-            paddingTop = paddingTB,
-            paddingBottom = paddingTB,
-            paddingLeft = paddingLR,
-            paddingRight = paddingLR,
-            margin = sMargin,
-            marginLR = margin,
-            marginTB = margin,
-            marginLeft = marginLR || sMarginLeft,
-            marginRight = marginLR || sMarginRight,
-            marginTop = marginTB || sMarginTop,
-            marginBottom = marginTB || sMarginBottom,
-            height,
-            minHeight = sMinHeight,
             overflowY,
             backgroundColor,
             flexGrow,
+            xs,
+            xm,
+            xl,
+            sm = xm,
             ...props
         } = this.props;
 
-        if (paddingRight !== undefined) style.paddingRight = paddingRight;
-        if (minHeight !== undefined) style.minHeight = minHeight;
-        if (paddingLeft !== undefined) style.paddingLeft = paddingLeft;
-        if (paddingTop !== undefined) style.paddingTop = paddingTop;
-        if (paddingBottom !== undefined) style.paddingBottom = paddingBottom;
-        if (marginRight !== undefined) style.marginRight = marginRight;
-        if (marginLeft !== undefined) style.marginLeft = marginLeft;
-        if (marginTop !== undefined) style.marginTop = marginTop;
-        if (marginBottom !== undefined) style.marginBottom = marginBottom;
-        if (backgroundColor !== undefined) style.backgroundColor = backgroundColor;
-        if (height !== undefined) style.height = height;
-        if (overflowY !== undefined) style.overflowY = overflowY;
+        let style = View.extractStyles(this.props);
+
         if (flexGrow !== undefined) style.flexGrow = flexGrow || style.flexGrow;
 
         return (
             <Grid
+                xs={xs}
+                sm={sm}
+                xl={xl}
                 style={style}
                 item
                 {...props}

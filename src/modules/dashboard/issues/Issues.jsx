@@ -563,7 +563,7 @@ export default class Issues extends DashBoardActivity {
 
     get issuesListView() {
         return (
-            <IssuesListView issues={this.state.issues} height={500} />
+            <IssuesListView issues={this.state.issues} height={500}/>
         );
     }
 
@@ -600,12 +600,12 @@ export default class Issues extends DashBoardActivity {
                                 <Separator/>
                             </Row>
                         </Row>
-                        <Row style={{marginTop: 8}} justify={Flex.CENTER} alignItems={Flex.CENTER}>
+                        <Row marginTop={8} justify={Flex.CENTER} alignItems={Flex.CENTER}>
                             <Checkbox/>
                             <MaterialSelect
                                 value={0}
+                                disableUnderline
                                 color={"secondary"}
-                                style={{marginTop: 0}}
                                 selectionItems={[
                                     {
                                         key: 0,
@@ -638,9 +638,9 @@ export default class Issues extends DashBoardActivity {
                         {this.issuesListView}
                         <Row>
                             <Separator/>
-                            <Column xs={12} lg={4}>
+                            <MaterialCol xs={12} lg={4}>
                                 {this.paginationControllerView}
-                            </Column>
+                            </MaterialCol>
                         </Row>
                     </MaterialCol>
                 </GridItem>

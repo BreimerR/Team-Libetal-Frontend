@@ -5,10 +5,11 @@ import Tabs from "@material-ui/core/Tabs";
 import MaterialTab from "./MaterialTab";
 import PropTypes from "prop-types";
 import Colors from "../Colors";
+import View from "../modules/repos/contributions/View";
 
 
 const component = (
-    props => <Tabs {...props} TabIndicatorProps={{children: <span/>}}/>
+    props => <Tabs   {...props} TabIndicatorProps={{children: <span/>}}/>
 );
 const HiddenIndicator = withStyles({
     indicator: {
@@ -46,10 +47,13 @@ export default class TabsLayout extends Component {
     };
 
     static VARIANT = {
-        SCROLLABLE: "scrollable"
+        SCROLLABLE: "scrollable",
+        FULLWIDTH: "fullWidth",
+        STANDARD: "standard"
     };
 
     static propTypes = {
+        indicatorColor: PropTypes.string,
         tabStyle: PropTypes.object,
         tabs: PropTypes.oneOfType([
             PropTypes.arrayOf(PropTypes.string),
@@ -62,6 +66,7 @@ export default class TabsLayout extends Component {
         ]).isRequired,
         defaultTabIndex: PropTypes.number,
         orientation: PropTypes.oneOf(["horizontal", "vertical"]),
+
         /**TODO
          * use this component variable to set
          * the state of currentTab
@@ -74,20 +79,12 @@ export default class TabsLayout extends Component {
          * reset between redraws
          *
          * but if we perform onChange here this needs to remember
-         * to call  
+         * to call
          * onBeforeChange
          * onChange
          * */
         componentInstance: PropTypes.any,
-        marginTB: PropTypes.number,
-        marginLR: PropTypes.number,
-        marginLeft: PropTypes.number,
-        marginRight: PropTypes.number,
-        marginTop: PropTypes.number,
-        marginBottom: PropTypes.number,
-        minTabHeight: PropTypes.number,
         tabMinHeight: PropTypes.number,
-        width: PropTypes.number,
         minTabWidth: PropTypes.number,
         tabMarginLeft: PropTypes.number,
         tabMarginRight: PropTypes.number,
@@ -104,11 +101,13 @@ export default class TabsLayout extends Component {
         variant: PropTypes.oneOf(["standard", "scrollable", "fullWidth"]),
         showIndicator: PropTypes.bool,
         onItemClick: PropTypes.func,
-        onChange: PropTypes.func
+        onChange: PropTypes.func,
+        ...View.propTypes
     };
 
     static defaultProps = {
         tabStyle: {},
+        overflowX: "hidden",
         value: 0,
         // ON CHANGE IS WORKING WRONG
         onChange(e, newTab) {
@@ -125,6 +124,7 @@ export default class TabsLayout extends Component {
         minTabHeight: 20,
         tabMinHeight: 20,
         minTabWidth: 20,
+        tabMarginBottom: 4,
         showIndicator: true,
         onItemClick: e => {
 
@@ -238,26 +238,12 @@ export default class TabsLayout extends Component {
 
         let {
             tabs,
-            style: {
-                margin: sMargin,
-                marginLeft: sMarginLeft,
-                marginRight: sMarginRight,
-                marginTop: sMarginTop,
-                marginBottom: sMarginBottom,
-                ...style
-            } = {},
             tabStyle: {...tabStyle} = {},
-            margin = sMargin,
-            marginTB = margin,
-            marginLR = margin,
-            marginLeft = marginLR || sMarginLeft,
-            marginRight = marginLR || sMarginRight,
-            marginTop = marginTB || sMarginTop,
-            marginBottom = marginTB || sMarginBottom,
             defaultTabIndex,
             minTabWidth,
             orientation,
             onChange,
+            indicatorColor = "secondary",
             minTabHeight,
             classes,
             value,
@@ -276,11 +262,12 @@ export default class TabsLayout extends Component {
             onTabChangeRequest,
             onTabChangeRejected,
             showIndicator,
-            width,
             onItemClick,
             ...props
         } = this.props;
 
+
+        let componentStyle = View.extractStyles(this.props);
 
         tabStyle.paddingLeft = tabLeftPadding;
         tabStyle.paddingRight = tabRightPadding;
@@ -294,6 +281,7 @@ export default class TabsLayout extends Component {
         tabStyle.minHeight = minTabHeight;
 
         let tabChange = (e, tabId) => {
+
             if (onTabChangeRequest(tabId)) {
                 this.currentTab = tabId;
                 onChange(this, tabId);
@@ -302,27 +290,16 @@ export default class TabsLayout extends Component {
 
         let Component = showIndicator ? Layout : HiddenIndicator;
 
-        let componentStyle = {
-            ...style,
-            minHeight: minTabHeight,
-            padding: 0,
-            paddingTop: 0,
-            marginLeft,
-            marginRight,
-            marginTop,
-            marginBottom,
-            width: width
-        };
+        componentStyle.minHeight = minTabHeight;
 
-        if (showIndicator === false) {
-            componentStyle = {...componentStyle, paddingBottom: 0};
-        }
+
+        if (showIndicator === false) componentStyle.padding = 0;
 
         return (
             <Component
                 value={this.currentTab}
                 orientation={orientation}
-                indicatorColor={"secondary"}
+                indicatorColor={indicatorColor}
                 onChange={tabChange}
                 style={componentStyle}
                 children={this.tabs}

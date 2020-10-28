@@ -1,0 +1,238 @@
+{
+  "response": {
+    "code": 200,
+    "message": "success"
+  },
+  "data": [
+    {
+      "name": "Libetal",
+      "quarters": [
+        {
+          "months": [
+          ],
+          "accumulations": {
+            "pricePerShare": {
+              "value": 400,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh",
+              "comments": "This is the average share for 1st quarter"
+            },
+            "downloads": 10000,
+            "subscribers": 1000,
+            "active": {
+              "value": 1000,
+              "period": "per day",
+              "percentageChange": 5
+            },
+            "totalSales": {
+              "value": 10000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "billings": {
+              "value": 3000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "mergedCommits": 10000,
+            "mergedCommitsCost": {
+              "value": 300000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "commits": 20000,
+            "commitsCost": {
+              "value": 1000000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            }
+          }
+        },
+        {
+          "months": [
+          ],
+          "accumulations": {
+            "pricePerShare": {
+              "value": 400,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh",
+              "comments": "This is the average share for 1st quarter"
+            },
+            "downloads": 10000,
+            "subscribers": 1000,
+            "active": {
+              "value": 1000,
+              "period": "per day",
+              "percentageChange": 5
+            },
+            "totalSales": {
+              "value": 10000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "billings": {
+              "value": 3000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "mergedCommits": 10000,
+            "mergedCommitsCost": {
+              "value": 300000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "commits": 20000,
+            "commitsCost": {
+              "value": 1000000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            }
+          }
+        },
+        {
+          "months": [
+          ],
+          "accumulations": {
+            "pricePerShare": {
+              "value": 400,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh",
+              "comments": "This is the average share for 1st quarter"
+            },
+            "downloads": 10000,
+            "subscribers": 1000,
+            "active": {
+              "value": 1000,
+              "period": "per day",
+              "percentageChange": 5
+            },
+            "totalSales": {
+              "value": 10000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "billings": {
+              "value": 3000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "mergedCommits": 10000,
+            "mergedCommitsCost": {
+              "value": 300000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "commits": 20000,
+            "commitsCost": {
+              "value": 1000000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            }
+          }
+        },
+        {
+          "months": [
+          ],
+          "accumulations": {
+            "pricePerShare": {
+              "value": 400,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh",
+              "comments": "This is the average share for 1st quarter"
+            },
+            "downloads": 10000,
+            "subscribers": 1000,
+            "active": {
+              "value": 1000,
+              "period": "per day",
+              "percentageChange": 5
+            },
+            "totalSales": {
+              "value": 10000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "billings": {
+              "value": 3000,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "mergedCommits": 10000,
+            "mergedCommitsCost": {
+              "value": 300000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            },
+            "commits": 20000,
+            "commitsCost": {
+              "value": 1000000.00,
+              "currencyName": "Kenyan Shilling",
+              "currencySign": "Ksh"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Luro"
+    },
+    {
+      "name": "Dukto"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    },
+    {
+      "name": "ShitoRi"
+    }
+  ],
+  "dataCount": 10
+}

@@ -19,6 +19,14 @@ export default class Settings {
 
     static orangeLight = Colors.orange;
 
+    static DISPLAY = {
+        DIRECTION: {
+            LEFT_RIGHT: "ltr",
+            RIGHT_LEFT: "rtl"
+        }
+    };
+
+    static displayDirection = Settings.DISPLAY.DIRECTION.LEFT_RIGHT;
 
     static lightTheme = createMuiTheme({
         palette: {
@@ -42,7 +50,6 @@ export default class Settings {
             }
         }
     });
-
 
 
     static darkTheme = createMuiTheme({
@@ -81,7 +88,7 @@ export default class Settings {
         return this.darkTheme;
     }
 
-    static get appBackground (){
+    static get appBackground() {
         if (this.palette === "light") return Colors.white;
 
         return "#303030";

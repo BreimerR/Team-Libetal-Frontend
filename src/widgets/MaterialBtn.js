@@ -1,6 +1,7 @@
 import * as React from "react";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
+import View from "../modules/repos/contributions/View";
 
 export default class MaterialBtn extends React.Component {
 
@@ -40,7 +41,8 @@ export default class MaterialBtn extends React.Component {
         marginTop: PropTypes.number,
         marginBottom: PropTypes.number,
         maxWidth: PropTypes.number,
-        fontSize: PropTypes.oneOf([PropTypes.string, PropTypes.number])
+        fontSize: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+        ...View.propTypes
     };
 
 
@@ -59,46 +61,19 @@ export default class MaterialBtn extends React.Component {
             startIcon,
             endIcon,
             style: {
-                maxWidth: sMaxWidth,
-                fontSize: sFontSize,
-                margin: sMargin,
-                marginRight: sMarginRight = sMargin,
-                marginLeft: sMarginLeft = sMargin,
-                marginTop: sMarginTop = sMargin,
-                marginBottom: sMarginBottom = sMargin,
-                padding: sPadding,
-                paddingLeft: sPaddingLeft = sPadding,
-                paddingRight: sPaddingRight = sPadding,
-                paddingTop: sPaddingTop = sPadding,
-                paddingBottom: sPaddingBottom = sPadding,
-                textTransform: styleTextTransform,
-                ...style
+                textTransform: sTextTransform
             },
-            maxWidth = sMaxWidth,
-            textTransform = styleTextTransform,
-            padding,
-            paddingTB = padding,
-            paddingLR = padding,
-            paddingLeft = paddingLR || sPaddingLeft,
-            paddingRight = paddingLR || sPaddingRight,
-            paddingTop = paddingTB || sPaddingTop,
-            paddingBottom = paddingTB || sPaddingBottom,
-            fontSize = sFontSize,
+            textTransform = sTextTransform,
             variant,
             color,
             children,
             margin,
             disabled,
-            marginLR = margin,
-            marginTB = margin,
-            marginRight = marginLR || sMarginRight,
-            marginLeft = marginLR || sMarginLeft,
-            marginTop = marginTB || sMarginTop,
-            marginBottom = marginTB || sMarginBottom,
             ...props
         } = this.props;
 
-        style.textTransform = styleTextTransform || textTransform;
+        let style = View.extractStyles(this.props);
+        style.textTransform = textTransform;
 
         if (!(color === "secondary" || color === "primary")) {
             style.backgroundColor = color;
@@ -106,16 +81,7 @@ export default class MaterialBtn extends React.Component {
         }
 
         style.color = textColor;
-        style.marginRight = marginRight;
-        style.marginLeft = marginLeft;
-        style.marginTop = marginTop;
-        style.marginBottom = marginBottom;
-        style.paddingLeft = paddingLeft;
-        style.paddingRight = paddingRight;
-        style.paddingTop = paddingTop;
-        style.paddingBottom = paddingBottom;
-        style.fontSize = fontSize;
-        style.maxWidth = maxWidth;
+
 
         return (
             <Button

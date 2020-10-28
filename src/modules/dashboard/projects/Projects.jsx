@@ -145,13 +145,13 @@ export default class Projects extends Component {
                     value: v
                 }))}
                 selectionHeader={
-                    <Row style={{paddingLeft: 4, paddingRight: 4}}>
+                    <MaterialRow paddingLR={4}>
                         <MaterialTextView
                             text={`Table items count`}
                             textColor={Settings.colorSecondary}
                             fontSize={12}
                         />
-                    </Row>
+                    </MaterialRow>
                 }
                 onChange={(e, n) => {
                     this.setState({pageItemsCountIndex: n.props.value});
@@ -610,6 +610,7 @@ export default class Projects extends Component {
                         <Grid container item xs={12} xm={8} lg={8} justify={Flex.CENTER}>
                             <MaterialRow justify={Flex.CENTER} alignItems={Flex.CENTER} style={{paddingTop: 32}}>
                                 <MaterialSelect
+                                    disableUnderline
                                     style={{position: "relative", marginTop: 0, marginLeft: 6}}
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"

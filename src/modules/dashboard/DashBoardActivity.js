@@ -17,6 +17,7 @@ import HeaderOption from "./widgets/HeaderOption";
 import Footer from "../Footer";
 import MaterialCol from "../../widgets/grid/MaterialCol";
 import Paper from "@material-ui/core/Paper";
+import MaterialRow from "../../widgets/grid/MaterialRow";
 
 export default class DashBoardActivity extends Component {
 
@@ -67,18 +68,19 @@ export default class DashBoardActivity extends Component {
     get paginationSelect() {
         return (
             <MaterialSelect
+
                 selectionItems={this.state.pageItemsCountKeys.map((v, i) => ({
                     key: i,
                     value: v
                 }))}
                 selectionHeader={
-                    <Row style={{paddingLeft: 4, paddingRight: 4}}>
+                    <MaterialRow paddingLR={4}>
                         <MaterialTextView
                             text={`Table items count`}
                             textColor={Settings.colorSecondary}
                             fontSize={12}
                         />
-                    </Row>
+                    </MaterialRow>
                 }
                 onChange={(e, n) => {
                     this.setState({pageItemsCountIndex: n.props.value});
@@ -117,9 +119,10 @@ export default class DashBoardActivity extends Component {
     get head() {
         return (
             <>
-                <Column xs={12} lg={8} justify={Flex.CENTER}>
-                    <Row justify={Flex.CENTER} alignItems={Flex.CENTER} style={{paddingTop: 32}}>
+                <MaterialCol xs={12} lg={8} alignItems={Flex.CENTER}>
+                    <MaterialRow justify={Flex.CENTER} alignItems={Flex.CENTER} paddingTop={32}>
                         <MaterialSelect
+                            disableUnderline
                             style={{position: "relative", marginTop: 0, marginLeft: 6}}
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -146,12 +149,12 @@ export default class DashBoardActivity extends Component {
                         <IconButton style={{padding: 6, margin: 2}}>
                             <MaterialIcon icon={"Save"}/>
                         </IconButton>
-                    </Row>
+                    </MaterialRow>
                     <MaterialDivider width={"80%"} orientation={"horizontal"}/>
-                </Column>
-                <Column xs={12} lg={4} justify={Flex.END} alignContent={Flex.CENTER}>
+                </MaterialCol>
+                <MaterialCol xs={12} lg={4} justify={Flex.CENTER} alignItems={Flex.END}>
                     {this.createAction}
-                </Column>
+                </MaterialCol>
             </>
         );
     }
@@ -162,7 +165,7 @@ export default class DashBoardActivity extends Component {
 
     render() {
         return (
-            <Paper style={{borderRadius:0}}>
+            <Paper style={{borderRadius: 0}}>
                 <MaterialCol alignItems={Flex.SPACE_AROUND} style={{paddingLeft: 8, paddingRight: 8}}>
                     <Row>
                         {this.head}

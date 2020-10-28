@@ -30,6 +30,9 @@ import Teams from "./teams/Teams";
 import HomeImageButton from "../home/HomeImageButton";
 import UserAccountButton from "../users/widgets/UserAccountsButton";
 import LanguagesAccessibilityControl from "../../widgets/accessibility/LanguagesAccessibilityControl";
+import TabsLayout from "../../widgets/TabsLayout";
+import MaterialPaper from "../../widgets/grid/MaterialPaper";
+import MaterialCol from "../../widgets/grid/MaterialCol";
 
 
 const dashBoardTheme = createMuiTheme({
@@ -172,7 +175,13 @@ export default class Dashboard extends Component {
     }
 
     get dashBoardSearchValue() {
-        return this.state.dashBoardSearchValues[this.state.dashBoardSearchKey].name;
+        return (
+            <MaterialTextView
+                text={this.state.dashBoardSearchValues[this.state.dashBoardSearchKey].name}
+                paddingLeft={6}
+                paddingRight={2}
+            />
+        );
     }
 
 
@@ -224,26 +233,31 @@ export default class Dashboard extends Component {
                         </GridItem>
                         <GridItem xs={10} sm={12} lg={4}>
                             <nav>
-                                <StyledTabs
-                                    value={this.state.currentTab}
-                                    fullwidth={"true"}
+                                <TabsLayout
                                     onChange={(e, i) => {
                                         this.setState(prevState => ({currentTab: i}));
                                     }}
-                                >
-                                    {
+                                    tabTBPadding={4}
+                                    tabLRPadding={4}
+                                    fullwidth={true}
+                                    tabs={
                                         this.state.dashBoardSearchValues.map(({id, name}, i) => (
-                                                <StyledTab key={i} label={name}/>
+                                                {
+                                                    key: i,
+                                                    label: name
+                                                }
                                             )
                                         )
                                     }
-                                </StyledTabs>
+                                />
+
                             </nav>
                         </GridItem>
                         <GridItem xs={12} sm={12} lg={4}>
                             <Paper>
                                 <MaterialRow alignItems={Flex.CENTER} marginBottom={4} paddingLR={4} height={42}>
                                     <MaterialSelect
+                                        disableUnderline
                                         style={{position: "relative", marginTop: 0, marginLeft: 6}}
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
@@ -345,6 +359,7 @@ export default class Dashboard extends Component {
 
         let {
             navigator,
+            location,
             classes
         } = this.props;
 
@@ -354,9 +369,9 @@ export default class Dashboard extends Component {
             case 1:
                 return <Issues navigator={navigator}/>;
             case  2:
-                return (<Teams navigator={navigator}/>);
+                return <Teams navigator={navigator}/>;
             case 6:
-                return <Insights classes={classes} navigator={navigator}/>;
+                return <Insights classes={classes} navigator={navigator} location={location}/>;
             default:
                 return <Projects classes={classes} navigator={navigator}/>;
         }
@@ -370,17 +385,16 @@ export default class Dashboard extends Component {
 
         return (
             <ThemeProvider theme={Settings.appTheme}>
-                <Row>
+                <MaterialRow>
                     {this.navigation}
-                    <Paper className={classes.content} style={{borderRadius: 0}} elevation={0}
-
-                           children={
-                               <main style={{background: Settings.colorPrimary}}>
-                                   {this.currentBody}
-                               </main>
-                           }
+                    <MaterialPaper
+                        component={MaterialCol}
+                        paddingTop={12}
+                        borderRadius={0}
+                        elevation={0}
+                        children={this.currentBody}
                     />
-                </Row>
+                </MaterialRow>
             </ThemeProvider>
 
         );

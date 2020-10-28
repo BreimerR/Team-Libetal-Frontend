@@ -7,6 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import PropTypes from "prop-types";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import MaterialIcon from "../MaterialIcon";
+import View from "../../modules/repos/contributions/View";
 
 /**
  * ID does not work as expected
@@ -17,6 +18,7 @@ export default class MaterialSelect extends Component {
     static defaultProps = {
         color: "secondary",
         style: {},
+        marginTop:0,
         selectionItems: [],
         selectionHeader: undefined,
         maxRows: undefined,
@@ -30,10 +32,13 @@ export default class MaterialSelect extends Component {
 
     static propTypes = {
         color: PropTypes.string,
-        selectionItems: PropTypes.arrayOf(PropTypes.shape({
-            key: PropTypes.number,
-            value: PropTypes.any
-        })),
+        disableUnderline: PropTypes.bool,
+        selectionItems: PropTypes.arrayOf(
+            PropTypes.shape({
+                key: PropTypes.number,
+                value: PropTypes.any
+            })
+        ),
         selectionHeader: PropTypes.any,
         selectionFooter: PropTypes.any,
         labelId: PropTypes.string,
@@ -43,7 +48,8 @@ export default class MaterialSelect extends Component {
         renderValue: PropTypes.any,
         labelText: PropTypes.string,
         startAdornment: PropTypes.any,
-        multiple: PropTypes.bool
+        multiple: PropTypes.bool,
+        ...View.propTypes
     };
 
     get selectionItems() {
@@ -71,12 +77,11 @@ export default class MaterialSelect extends Component {
             children: items,
             selectionHeader,
             selectionFooter,
-            style: {marginTop, ...style} = {},
+
             ...props
         } = this.props;
 
-        style.marginTop = 0;
-
+        let style = View.extractStyles(this.props);
 
         if (startIcon !== undefined) {
 
@@ -92,7 +97,7 @@ export default class MaterialSelect extends Component {
         }
 
         return (
-            <Select style={style}  {...props} >
+            <Select style={style} {...props}  >
                 {selectionHeader}
                 {this.selectionItems}
                 {selectionFooter}
@@ -151,12 +156,14 @@ export default class MaterialSelect extends Component {
             selectionItems = this.selectionItems,
             renderValue,
             labelText,
+            disableUnderline,
             materialLabel,
             menuTitleText,
             labelId,
             startIcon,
             startAdornment,
             style,
+            marginTop,
             children,
             selectionHeader,
             selectionFooter,

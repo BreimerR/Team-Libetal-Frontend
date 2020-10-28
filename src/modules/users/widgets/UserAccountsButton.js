@@ -313,7 +313,7 @@ export default class UserAccountButton extends Component {
                                         <TextView text={"Insights"}/>
                                     </>,
                                     e => {
-                                        this.props.navigator("dashboard/insights?projects=all");
+                                        this.props.navigator("dashboard/insights/all");
                                     }
                                 )
                             }

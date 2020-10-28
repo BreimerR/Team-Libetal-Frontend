@@ -8,6 +8,8 @@ import Row from "../../../widgets/Row";
 import ProductivityInsights from "./ProductivityInsights";
 import Footer from "../../Footer";
 import Settings from "../../../utils/Settings";
+import MaterialRow from "../../../widgets/grid/MaterialRow";
+import MaterialCol from "../../../widgets/grid/MaterialCol";
 
 
 /**Todo
@@ -19,6 +21,8 @@ export default class Insights extends React.Component {
     static ACCOUNTS_INSIGHTS_TAB = 1;
     static PROJECTS_INSIGHTS_TAB = 2;
     static PRODUCTIVITY_TAB = 3;
+
+    static TABS = ["All", "Accounts", "Projects", "Productivity"];
 
     state = {
         name: "Breimer",
@@ -74,7 +78,38 @@ export default class Insights extends React.Component {
 
 
     onMenuItemClick(drawer, itemId) {
-        this.setState({currentTab: itemId});
+        this.props.navigator(`dashboard/insights/${Insights.TABS[itemId]}`);
+    }
+
+    componentDidMount() {
+
+        let {
+            props: {
+                location: {location: {pathname} = {}} = {}
+            }
+        } = this;
+
+        let pathNames = pathname.split("?")[0].split("/").filter(value => value !== "");
+
+        let tabName = (pathNames[2] || "");
+
+        let currentTab = 0;
+
+        switch (tabName.toLowerCase()) {
+            case "accounts":
+                currentTab = 1;
+                break;
+            case "projects":
+                currentTab = 2;
+                break;
+
+            case "productivity":
+                currentTab = 3;
+                break;
+        }
+
+        this.setState({currentTab});
+
     }
 
     render() {
@@ -84,16 +119,18 @@ export default class Insights extends React.Component {
 
         return (
             <>
-                {<InsightsDrawer onPinChange={(pinState) => {
-                    this.setState({pinState});
-                }} onItemClick={this.onMenuItemClick} classes={classes}/>}
-                <Row
-                    style={{
-                        backgroundColor:Settings.appBackground,
-                        paddingLeft: pinState ? 242 : 58
-                    }}
-                    children={this.currentTab}
-                />
+                {
+                    <InsightsDrawer
+                        onPinChange={
+                            (pinState) => this.setState({pinState})
+                        }
+                        onItemClick={this.onMenuItemClick}
+                        classes={classes}
+                    />
+                }
+                <MaterialCol paddingLeft={pinState ? 242 : 58}>
+                    {this.currentTab}
+                </MaterialCol>
                 <Footer
                     style={{
                         paddingLeft: pinState ? 242 : 58

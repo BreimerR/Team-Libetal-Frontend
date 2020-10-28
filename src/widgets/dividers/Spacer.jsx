@@ -23,7 +23,7 @@ export default class Spacer extends Component {
         } = this.props;
 
         if (orientation === Spacer.VERTICAL) {
-            props.width = spacing;
+            props.height = spacing;
         } else props.width = spacing;
 
         props.spacing = 0;

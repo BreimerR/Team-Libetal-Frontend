@@ -26,6 +26,7 @@ import IssueTypeSelect from "./widgets/IssueTypeSelect";
 import MaterialFileInputBase from "../../widgets/input/file/MaterialFileInputBase";
 import UserAccountButton from "../users/widgets/UserAccountsButton";
 import AccessibilityControl from "../../widgets/AccessibilityControl";
+import MaterialRow from "../../widgets/grid/MaterialRow";
 
 export default class CreateIssue extends Component {
 
@@ -343,14 +344,14 @@ export default class CreateIssue extends Component {
             white,
             grey,
             green,
-            grey_lighten_3
+            grey_lighten_4
         } = Colors;
 
         return (
             <MaterialBtn
                 disabled={!formReady}
                 content={"Create"}
-                color={formReady ? green : grey_lighten_3}
+                backgroundColor={formReady ? green : grey_lighten_4}
                 textColor={formReady ? white : grey}
                 onClick={
                     e => {
@@ -427,11 +428,11 @@ export default class CreateIssue extends Component {
                                                     color={transparent}
                                                     spacing={4}
                                                 />
-                                                <Row justify={Flex.SPACE_BETWEEN} alignItems={Flex.END}>
+                                                <MaterialRow justify={Flex.SPACE_BETWEEN} alignItems={Flex.END}>
                                                     <GridItem xs={7}>
                                                         <MaterialFileInputBase
-                                                            inputSize={7}
-                                                            actionSize={4}
+                                                            inputSize={6}
+                                                            actionSize={5}
                                                             clearSize={1}
                                                             helperText={
                                                                 <MaterialTextView fontSize={10}>
@@ -441,16 +442,15 @@ export default class CreateIssue extends Component {
                                                             ActionButton={MaterialBtn}
                                                             ActionButtonButtonProps={{
                                                                 content: "Attachments",
-                                                                style: {
-                                                                    marginBottom: 4
-                                                                }
+                                                                marginBottom:4,
+                                                                paddingLR:4
                                                             }}
                                                         />
                                                     </GridItem>
                                                     <GridItem xs={4} paddingBottom={14}>
                                                         {this.assigneesSelectView}
                                                     </GridItem>
-                                                </Row>
+                                                </MaterialRow>
                                                 <MaterialDivider spacing={6} color={Colors.transparent}/>
                                                 <Row justify={Flex.SPACE_EVENLY}>
                                                     <GridItem xs={12} sm={5}>

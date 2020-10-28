@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import MaterialDrawerList from "./MaterialDrawerList";
+import View from "../../modules/repos/contributions/View";
 
 
 export default class MaterialDrawer extends Component {
@@ -21,17 +22,18 @@ export default class MaterialDrawer extends Component {
     };
 
     static propTypes = {
+        ...View.propTypes,
         variant: PropTypes.oneOf(["persistent", "permanent", "temporary"]),
         footer: PropTypes.any,
         header: PropTypes.any,
-        items:PropTypes.arrayOf(
+        items: PropTypes.arrayOf(
             PropTypes.shape({
                 onClick: PropTypes.func,
                 key: PropTypes.number,
-                get body(){
-                    return this
+                get body() {
+                    return this;
                 },
-                collapseTitle:PropTypes.string,
+                collapseTitle: PropTypes.string,
                 icon: PropTypes.oneOfType([
                     PropTypes.string,
                     PropTypes.shape({
@@ -43,14 +45,14 @@ export default class MaterialDrawer extends Component {
                 onItemClick: PropTypes.func
             })
         ),
-        drawerItems:PropTypes.arrayOf(
+        drawerItems: PropTypes.arrayOf(
             PropTypes.shape({
                 onClick: PropTypes.func,
                 key: PropTypes.number,
-                get body(){
-                    return this
+                get body() {
+                    return this;
                 },
-                collapseTitle:PropTypes.string,
+                collapseTitle: PropTypes.string,
                 icon: PropTypes.oneOfType([
                     PropTypes.string,
                     PropTypes.shape({
@@ -99,7 +101,7 @@ export default class MaterialDrawer extends Component {
             onItemClick
         } = this.props;
 
-        items = items || drawerItems
+        items = items || drawerItems;
 
         if (items !== undefined) {
             list = (

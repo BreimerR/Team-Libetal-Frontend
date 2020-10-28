@@ -8,6 +8,9 @@ import MaterialIcon from "../widgets/MaterialIcon";
 import MaterialRow from "../widgets/grid/MaterialRow";
 import GridItem from "../widgets/grid/GridItem";
 import MaterialDivider from "../widgets/MaterialDivider";
+import Link from "@material-ui/core/Link";
+import MaterialCol from "../widgets/grid/MaterialCol";
+import Spacer from "../widgets/dividers/Spacer";
 
 
 export default class Footer extends Component {
@@ -25,10 +28,9 @@ export default class Footer extends Component {
                 <MaterialRow justify={Flex.CENTER} style={{
                     backgroundColor: Colors.black, ...this.props.style,
                     paddingTop: 16,
-                    paddingRight: 16,
-                    marginLeft: 0
+                    paddingLeft: 1
                 }}>
-                    <Column xs={6} lg={4}>
+                    <MaterialCol xs={6} lg={4}>
                         <Row justify={Flex.CENTER}>
                             <MaterialTextView text={"App Store"} textColor={textColor} variant={"h5"}/>
                         </Row>
@@ -36,8 +38,13 @@ export default class Footer extends Component {
                             <Column xs={7}>
                                 <MaterialTextView text={"Pricing"} textColor={textColor}/>
                                 <MaterialTextView text={"Hosting"} textColor={textColor}/>
-                                <MaterialTextView text={"Projects"} textColor={textColor}/>
-                                <MaterialTextView text={"Work"} textColor={textColor}/>
+                                <Link href={"/dashboard/projects"}>
+                                    <MaterialTextView text={"Projects"} textColor={textColor}/>
+                                </Link>
+                                <Link href={"/dashboard/teams"}>
+                                    <MaterialTextView text={"Teams"} textColor={textColor}/>
+                                </Link>
+
                             </Column>
                         </Row>
                         <Row justify={Flex.CENTER}>
@@ -48,8 +55,11 @@ export default class Footer extends Component {
                                 <MaterialTextView text={"How It Work"} textColor={textColor}/>
                             </Column>
                         </Row>
-                    </Column>
+                    </MaterialCol>
                     <MaterialRow xs={6} lg={4} justify={Flex.CENTER}>
+                        <MaterialRow justify={Flex.START}>
+                            <MaterialTextView text={"About"} textColor={textColor} variant={"h5"}/>
+                        </MaterialRow>
                         <MaterialTextView
                             textColor={Colors.white}
                             textAlign={"center"}>
@@ -58,51 +68,42 @@ export default class Footer extends Component {
                             than change to society but so much more.
                         </MaterialTextView>
                     </MaterialRow>
-                    <Column xs={6} lg={4} alignItems={Flex.END}>
-                        <Row justify={Flex.CENTER}>
-                            <MaterialTextView text={"About"} textColor={textColor} variant={"h5"}/>
-                        </Row>
+                    <MaterialCol xs={6} lg={4} alignItems={Flex.END}>
                         <Row justify={Flex.CENTER}>
                             <MaterialTextView text={"Contacts"} textColor={textColor} variant={"h6"}/>
                         </Row>
                         <Row justify={Flex.END}>
                             <Column xs={6}>
                                 <MaterialTextView text={"libetal@email.com"} textColor={textColor}/>
-                                <MaterialTextView text={"+257 7xx-xxx-xxx"} textColor={textColor}/>
+                                <MaterialTextView text={"+257 725-124-606"} textColor={textColor}/>
+                                <MaterialTextView text={"+020 xxx-xxx-xxx"} textColor={textColor}/>
                             </Column>
                         </Row>
                         <Row justify={Flex.CENTER}>
                             <MaterialTextView text={"Address"} textColor={textColor} variant={"h6"}/>
                         </Row>
                         <Row justify={Flex.END}>
-                            <Column xs={6}>
-                                <MaterialTextView text={"libetal@email.com"} textColor={textColor}/>
-                                <MaterialTextView text={"+257 7xx-xxx-xxx"} textColor={textColor}/>
+                            <MaterialCol xs={6}>
+                                <MaterialTextView text={"HQ, Africa"} textColor={textColor}/>
+                                <MaterialTextView text={"Kenya, Nairobi"} textColor={textColor}/>
                                 <MaterialTextView text={"P.O.Box 00200-12444"} textColor={textColor}/>
-                            </Column>
+                            </MaterialCol>
                         </Row>
-                    </Column>
+                    </MaterialCol>
                     <MaterialDivider width={"60%"}/>
-                    <GridItem xs={12} padding={8}>
-                        <MaterialRow spacing={2} justify={Flex.CENTER} alignItems={Flex.CENTER}>
-                            <Column>
-                                <MaterialTextView text={"cookie policy"} textColor={textColor}/>
-                            </Column>
-                            <Column>
-                                <MaterialTextView text={"privacy policy"} textColor={textColor}/>
-                            </Column>
-                            <Column>
-                                <MaterialTextView text={"terms & condition"} textColor={textColor}/>
-                            </Column>
-                            <Column>
-                                <MaterialRow spacing={1}>
-                                    <MaterialTextView text={"Copyright "} textColor={textColor}/>
-                                    <MaterialIcon icon={"Copyright"}/>
-                                    <MaterialTextView text={" 2020"} textColor={textColor}/>
-                                </MaterialRow>
-                            </Column>
-                        </MaterialRow>
-                    </GridItem>
+                    <MaterialRow padding={8} justify={Flex.CENTER} alignItems={Flex.CENTER}>
+                        <MaterialTextView text={"cookie policy"} textColor={textColor}/>
+                        <MaterialTextView marginLeft={4} text={"privacy policy"} textColor={textColor}/>
+                        <MaterialTextView marginLeft={4} text={"terms & condition"} textColor={textColor}/>
+                        <GridItem marginLeft={4}>
+                            <MaterialRow>
+                                <MaterialTextView text={"Copyright "} textColor={textColor}/>
+                                <MaterialIcon icon={"Copyright"} iconSize={10}/>
+                                <MaterialTextView marginLeft={4} text={"2020"} textColor={textColor}/>
+                            </MaterialRow>
+                        </GridItem>
+                    </MaterialRow>
+
                 </MaterialRow>
             </>
         );

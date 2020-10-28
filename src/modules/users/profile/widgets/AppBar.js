@@ -17,10 +17,12 @@ import SearchInputBase from "../../../../widgets/input/SearchInputBase";
 import GridItem from "../../../../widgets/grid/GridItem";
 import Colors from "../../../../Colors";
 import MaterialDivider from "../../../../widgets/MaterialDivider";
+import View from "../../../repos/contributions/View";
 
 export default class AppBar extends Component {
 
     static propTypes = {
+        ...View.propTypes,
         navigator: PropTypes.func.isRequired,
         componentInstance: PropTypes.any.isRequired
     };
@@ -35,6 +37,8 @@ export default class AppBar extends Component {
 
         let {
             props: {
+                zIndex,
+                position = "static",
                 navigator,
                 componentInstance,
                 onChange
@@ -42,7 +46,7 @@ export default class AppBar extends Component {
         } = this;
 
         return (
-            <MAppBar position={"static"}>
+            <MAppBar position={position} style={{zIndex: zIndex}}>
                 <Toolbar>
                     <MaterialRow alignItems={Flex.CENTER} justify={Flex.SPACE_BETWEEN} alignContent={Flex.END}>
                         <HomeImageButton navigator={navigator}/>
