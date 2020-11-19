@@ -14,6 +14,7 @@ import MaterialIcon from "../../../widgets/MaterialIcon";
 import MaterialDivider from "../../../widgets/MaterialDivider";
 import PropTypes from "prop-types";
 import TabsLayout from "../../../widgets/TabsLayout";
+import MaterialRow from "../../../widgets/grid/MaterialRow";
 
 export default class IssueListItemView extends Component {
 
@@ -204,6 +205,7 @@ export default class IssueListItemView extends Component {
             tags = []
         } = this.props;
 
+        const {white} = Colors
 
         let [type, color] = this.issueTypeDemo;
 
@@ -249,7 +251,7 @@ export default class IssueListItemView extends Component {
                         <GridItem xs={11}>
                             <Column>
                                 <Row>
-                                    <GridItem xs={8}>
+                                    <GridItem xs={8} xl={7}>
                                         <MaterialTextView
                                             text={title}
                                             textColor={Colors.blue}
@@ -258,25 +260,24 @@ export default class IssueListItemView extends Component {
                                             }}
                                         />
                                     </GridItem>
-                                    <GridItem xs={4}>
-                                        <MaterialBtn
-                                            variant={"contained"}
-                                            content={"Tackle | Finance"}
-                                            startIcon={
-                                                <MaterialIcon
-                                                    icon={"AccountTree"}
-                                                    iconSize={18}
-                                                    color={Colors.white}
-                                                />
-                                            }
-                                            color={color}
-                                            textColor={Colors.white}
-                                            style={{
-                                                padding: 0,
-                                                paddingLeft: 6,
-                                                paddingRight: 6
-                                            }}
-                                        />
+                                    <GridItem xs={4} xl={5}>
+                                       <Row justify={Flex.END}>
+                                           <MaterialBtn
+                                               variant={"contained"}
+                                               content={"Tackle | Finance"}
+                                               startIcon={
+                                                   <MaterialIcon
+                                                       icon={"AccountTree"}
+                                                       iconSize={18}
+                                                       color={color}
+                                                   />
+                                               }
+                                               color={Colors.transparent}
+                                               textColor={color}
+                                               paddingTB={2}
+                                               paddingLR={6}
+                                           />
+                                       </Row>
                                         <MaterialBtn
                                             variant={"text"}
                                             content={attachments.length > 10 ? "10+" : attachments.length}

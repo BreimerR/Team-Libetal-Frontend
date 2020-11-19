@@ -293,7 +293,7 @@ export default class Issues extends DashBoardActivity {
                                     <Column>
                                         <MaterialTextView
                                             text={"This is a sample issue title, but should change depending on issue.title"}
-                                            textColor={color}
+                                            textColor={Colors.grey}
                                         />
                                     </Column>
                                 </GridItem>
@@ -351,14 +351,17 @@ export default class Issues extends DashBoardActivity {
     }
 
     get trendingView() {
+
+        const {red, purple, transparent} = Colors;
+
         return (
             <Paper>
                 <Column>
-                    <Toolbar style={{backgroundColor: Colors.purple, width: "inherit"}}>
+                    <Toolbar style={{backgroundColor: transparent, width: "inherit"}}>
 
                         <MaterialTextView
                             text={"Trending"}
-                            textColor={Colors.white}
+                            textColor={red}
                             variant={"h6"}
                         />
                         <Separator/>
@@ -368,7 +371,7 @@ export default class Issues extends DashBoardActivity {
                             controllerBody={
                                 <MaterialIcon
                                     icon={"MoreHoriz"}
-                                    color={Colors.white}
+                                    color={red}
                                 />
                             }
                             menuItems={this.state.trendingOptions}
@@ -498,9 +501,11 @@ export default class Issues extends DashBoardActivity {
         return (
             <>
                 <Chip
+                    size={"small"}
                     style={{
                         ...chipStyle,
-                        backgroundColor: Colors.green
+                        backgroundColor: Colors.transparent,
+                        color: Colors.grey
                     }}
                     label={" P: high"} color={"secondary"}
                     onDelete={
@@ -510,9 +515,11 @@ export default class Issues extends DashBoardActivity {
                     }
                 />
                 <Chip
+                    size={"small"}
                     style={{
                         ...chipStyle,
-                        backgroundColor: Colors.purple
+                        backgroundColor: Colors.transparent,
+                        color: Colors.grey
                     }}
                     label={" S: Chip"}
                     onDelete={
@@ -569,15 +576,14 @@ export default class Issues extends DashBoardActivity {
 
     get body() {
         return (
-            <MaterialRow>
-                <GridItem xs={12} xm={8} lg={8} paddingLR={6}>
-                    <MaterialCol alignItems={Flex.CENTER}>
+            <MaterialRow justify={Flex.CENTER}>
+                <GridItem xs={12} xm={8} lg={10} paddingLR={6}>
+                    <MaterialCol alignItems={Flex.SPACE_BETWEEN}>
                         <Row>
                             <Row alignItems={Flex.CENTER}>
                                 {this.issuesFilters}
                                 <Separator/>
                                 {this.issuesCurrentFiltersView}
-                                <Separator/>
                                 <MaterialOptionsMenu
                                     id={"filter-options"}
                                     menuItems={[
@@ -597,10 +603,9 @@ export default class Issues extends DashBoardActivity {
                                         }
                                     }}
                                 />
-                                <Separator/>
                             </Row>
                         </Row>
-                        <Row marginTop={8} justify={Flex.CENTER} alignItems={Flex.CENTER}>
+                        <Row marginTop={8}  alignItems={Flex.CENTER}>
                             <Checkbox/>
                             <MaterialSelect
                                 value={0}
@@ -630,10 +635,9 @@ export default class Issues extends DashBoardActivity {
                             <MaterialTextView text={`Found 1000`} fontSize={12}/>
                             <MaterialTextView text={`Showing 100-110`} fontSize={12}/>
                             <Separator/>
-                            <GridItem xs={12} lg={4}>
+                            <MaterialRow xs={12} lg={4} justify={Flex.END} >
                                 {this.paginationControllerView}
-                            </GridItem>
-
+                            </MaterialRow>
                         </Row>
                         {this.issuesListView}
                         <Row>
@@ -644,9 +648,9 @@ export default class Issues extends DashBoardActivity {
                         </Row>
                     </MaterialCol>
                 </GridItem>
-                <GridItem xs={12} xm={4} lg={4} paddingLR={6}>
+              {/*  <GridItem xs={12} xm={4} lg={4} paddingLR={6}>
                     {this.trendingView}
-                </GridItem>
+                </GridItem>*/}
             </MaterialRow>
         );
     }

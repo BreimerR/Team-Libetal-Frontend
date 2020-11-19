@@ -143,9 +143,14 @@ export default class ProjectListItemView extends Component {
     }
 
     get productionChipStyle() {
+        let {transparent, purple} = Colors;
+
         if (this.productionChipStyleField === undefined) this.productionChipStyleField = {
-            backgroundColor: Colors.purple,
-            color: Colors.white
+            backgroundColor: transparent,
+            borderStyle: "solid",
+            borderWidth: 1,
+            borderColor: purple,
+            color: purple
         };
 
         return this.productionChipStyleField;
@@ -239,7 +244,7 @@ export default class ProjectListItemView extends Component {
                                 <MaterialCol xs={11}>
                                     <MaterialTextView
                                         text={description}
-                                        textColor={Colors.blue}
+                                        textColor={Colors.alpha("blue",.8)}
                                         style={{
                                             cursor: "pointer"
                                         }}

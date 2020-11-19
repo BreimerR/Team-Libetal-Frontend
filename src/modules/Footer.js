@@ -11,6 +11,8 @@ import MaterialDivider from "../widgets/MaterialDivider";
 import Link from "@material-ui/core/Link";
 import MaterialCol from "../widgets/grid/MaterialCol";
 import Spacer from "../widgets/dividers/Spacer";
+import Settings from "../utils/Settings";
+import Paper from "@material-ui/core/Paper";
 
 
 export default class Footer extends Component {
@@ -18,18 +20,19 @@ export default class Footer extends Component {
 
     render() {
 
-        let textColor = Colors.white;
+        let textColor = Settings.palette === "dark" ? Colors.grey : Colors.black;
 
 
         // Parent container affecting left and right margin
         return (
             <>
                 <div style={{flexGrow: 1, display: "flex"}}/>
-                <MaterialRow justify={Flex.CENTER} style={{
-                    backgroundColor: Colors.black, ...this.props.style,
+                <Paper component={MaterialRow} justify={Flex.CENTER} style={{
+                    ...this.props.style,
                     paddingTop: 16,
-                    paddingLeft: 1
-                }}>
+                    paddingLeft: 1,
+                    borderRadius: 0,
+                }} elevation={6}>
                     <MaterialCol xs={6} lg={4}>
                         <Row justify={Flex.CENTER}>
                             <MaterialTextView text={"App Store"} textColor={textColor} variant={"h5"}/>
@@ -61,7 +64,7 @@ export default class Footer extends Component {
                             <MaterialTextView text={"About"} textColor={textColor} variant={"h5"}/>
                         </MaterialRow>
                         <MaterialTextView
-                            textColor={Colors.white}
+                            textColor={textColor}
                             textAlign={"center"}>
                             Libetal helps developers and creators alike,
                             to invest their time wisely on products that could bring more
@@ -104,7 +107,7 @@ export default class Footer extends Component {
                         </GridItem>
                     </MaterialRow>
 
-                </MaterialRow>
+                </Paper>
             </>
         );
     }

@@ -93,11 +93,11 @@ export default class DashBoardActivity extends Component {
         );
     }
 
-    createFilterOption(id, title, menuItems, btnColor = "green", textColor = "white") {
+    createFilterOption(id, title, menuItems, textColor = "green", iconColor = "white") {
         return (
             <HeaderOption
                 title={title}
-                btnColor={Colors[btnColor]}
+                btnColor={Colors.transparent}
                 textColor={Colors[textColor]}
                 id={id}
                 menuItems={menuItems}
@@ -143,8 +143,8 @@ export default class DashBoardActivity extends Component {
                         <IconButton>
                             <MaterialIcon icon={"Search"}/>
                         </IconButton>
-                        <Chip label={"by: @Chris"} color={"secondary"}/>
-                        <Chip label={"by: @Chris"} onDelete={() => {
+                        <Chip size={"small"} label={"by: @Chris"} color={"secondary"}/>
+                        <Chip size={"small"} label={"by: @Chris"} onDelete={() => {
                         }}/>
                         <IconButton style={{padding: 6, margin: 2}}>
                             <MaterialIcon icon={"Save"}/>

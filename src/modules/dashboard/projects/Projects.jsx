@@ -71,42 +71,22 @@ export default class Projects extends Component {
                     "@Chris",
                     "@Mike",
                     "@Yvonne"
-                ],
-                style: {
-                    color: Colors.white,
-                    backgroundColor: Colors.purple
-                }
+                ]
             },
             {
                 name: "platform",
-                value: "pc",
-                style: {
-                    color: Colors.white,
-                    backgroundColor: Colors.green
-                }
+                value: "pc"
             },
             {
                 name: "devs",
-                value: "Cro$$D",
-                style: {
-                    color: Colors.white,
-                    backgroundColor: Colors.red
-                }
+                value: "Cro$$D"
             },
             {
                 name: "os",
-                value: "linux",
-                style: {
-                    color: Colors.white,
-                    backgroundColor: Colors.orange
-                }
+                value: "linux"
             }, {
                 name: "state",
-                value: "dev",
-                style: {
-                    color: Colors.white,
-                    backgroundColor: Colors.blue
-                }
+                value: "dev"
             }
         ]
     };
@@ -208,6 +188,7 @@ export default class Projects extends Component {
                                 title: "IoT"
                             }
                         ],
+                        "transparent",
                         "green"
                     )
                 }
@@ -234,6 +215,7 @@ export default class Projects extends Component {
                                                     alignItems={Flex.CENTER}>Harmony <Checkbox/></MaterialRow>
                             }
                         ],
+                        "transparent",
                         "orange"
                     )
                 }
@@ -256,6 +238,7 @@ export default class Projects extends Component {
                                 title: "Proposed"
                             }
                         ],
+                        "transparent",
                         "blue"
                     )
                 }
@@ -277,6 +260,7 @@ export default class Projects extends Component {
                                 title: "Cro$$eD"
                             }
                         ],
+                        "transparent",
                         "red"
                     )
                 }
@@ -296,16 +280,59 @@ export default class Projects extends Component {
     }
 
     filterChip(name, v, color, style, marginLR = 1) {
+        style = {
+            ...style,
+            color: Colors.grey,
+            backgroundColor: "rgba(0,0,0,0)"
+        };
+
+        /**
+         * Todo
+         * Allow the ability to add such styles to any component at ease.
+         * <Elevated> <Chip/></Elevated>
+         * */
         return (
             <GridItem marginLR={marginLR}>
                 <Chip
                     size={"small"}
                     label={`${name}: ${v}`}
-                    color={color}
                     style={style}
+                    onDelete={
+                        () => this.removeProjectFilter(name, v)
+                    }
                 />
             </GridItem>
         );
+    }
+
+    /**
+     * TODO remove from array
+     * */
+    removeProjectFilter(name, v) {
+        this.setState(prevState => {
+
+            let i = prevState.projectsFilters.findIndex(({name: n}) => n === name);
+
+
+            if (i >= 0) {
+
+                let filter = prevState.projectsFilters[i];
+
+                let values = filter.value;
+
+                if (Array.isArray(values)) {
+                    filter.value = values.filter(val => v !== val);
+                } else {
+                    filter.value = [];
+                }
+
+                // this is not a must objects are referenced not copied in js.
+                prevState.projectsFilters[i] = filter;
+
+            }
+
+            return prevState;
+        });
     }
 
     get projectFiltersView() {
@@ -320,7 +347,6 @@ export default class Projects extends Component {
                             filters.push(
                                 this.filterChip(name, v, color, style)
                             );
-
                         }
                     );
                 } else {
@@ -335,16 +361,22 @@ export default class Projects extends Component {
     get bodyHeader() {
 
 
+        let filtersDisplay = Array.isArray(this.state.projectsFilters) && this.state.projectsFilters.length === 0 ? "none" : "flex";
+
+        console.log(filtersDisplay);
         return (
             <MaterialCol paddingLR={8}>
-                <MaterialCol justify={Flex.CENTER}>
-                    <MaterialRow justify={Flex.CENTER} alignItems={Flex.CENTER} marginTB={4}>
-                        {this.filterOptions}
-                    </MaterialRow>
-                </MaterialCol>
                 <MaterialRow justify={Flex.SPACE_BETWEEN}>
                     <GridItem>
-                        <MaterialRow alignItems={Flex.CENTER}>
+                        <MaterialRow justify={Flex.SPACE_BETWEEN} alignItems={Flex.CENTER} marginTB={4}>
+                            {this.filterOptions}
+                        </MaterialRow>
+                    </GridItem>
+                    {this.paginationController}
+                </MaterialRow>
+                <MaterialRow justify={Flex.SPACE_BETWEEN}>
+                    <GridItem>
+                        <MaterialRow alignItems={Flex.CENTER} display={filtersDisplay}>
                             <MaterialOptionsMenu
                                 id={"filter-options"}
                                 menuItems={[
@@ -366,7 +398,6 @@ export default class Projects extends Component {
                             {this.projectFiltersView}
                         </MaterialRow>
                     </GridItem>
-                    {this.paginationController}
                 </MaterialRow>
             </MaterialCol>
         );
@@ -530,9 +561,16 @@ export default class Projects extends Component {
     }
 
     get trendingView() {
+        let {
+            transparent,
+            red,
+            orange,
+            white
+        } = Colors;
+
         return (
             <Paper>
-                <Toolbar style={{background: Colors.red, color: Colors.white}}>
+                <Toolbar style={{backgroundColor: transparent, color: red}}>
                     <MaterialTextView
                         text={"Trending"}
                         variant={"h6"}
@@ -540,7 +578,7 @@ export default class Projects extends Component {
                     <Separator/>
 
                     <IconButton>
-                        <MaterialIcon icon={"Sort"} color={Colors.white}/>
+                        <MaterialIcon icon={"Sort"} color={red}/>
                     </IconButton>
                     <MaterialOptionsMenu
                         id={"trending-options"}
@@ -549,14 +587,16 @@ export default class Projects extends Component {
                                 {
                                     id: 0,
                                     title: (
-                                        <MaterialMenuItem title={"Notifications"} icon={"Notifications"}
-                                                          iconColor={Colors.red}/>
+                                        <MaterialMenuItem
+                                            title={"Notifications"}
+                                            icon={"Notifications"}
+                                            iconColor={red}/>
                                     )
                                 }
                             ]
                         }
                         controller={IconButton}
-                        controllerBody={<MaterialIcon icon={"MoreVert"} color={Colors.white}/>}
+                        controllerBody={<MaterialIcon icon={"MoreVert"} color={red}/>}
                     />
                 </Toolbar>
                 {this.trendingTabs}
@@ -659,10 +699,10 @@ export default class Projects extends Component {
                     </MaterialRow>
                     <MaterialCol>
                         <MaterialRow justify={Flex.SPACE_AROUND}>
-                            <GridItem xs={12} xm={7} lg={8}>
+                            <GridItem xs={12} xm={7} lg={8} paddingLeft={8}>
                                 {this.projectsView}
                             </GridItem>
-                            <GridItem xs={12} xm={4} lg={4} paddingLeft={12}>
+                            <GridItem xs={12} xm={4} lg={4} paddingLeft={20} paddingRight={8}>
                                 {this.trendingView}
                             </GridItem>
                         </MaterialRow>
